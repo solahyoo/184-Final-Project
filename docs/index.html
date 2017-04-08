@@ -15,7 +15,7 @@
     font-family: 'Source Sans Pro', sans-serif;
   }
 </style>
-<title>CS 184 Mesh Editor</title>
+<title>CS 184 Final Project Proposal</title>
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <link href="https://fonts.googleapis.com/css?family=Open+Sans|Source+Sans+Pro" rel="stylesheet">
 </head>
@@ -24,17 +24,58 @@
 <body>
 
 <h1 align="middle">CS 184: Computer Graphics and Imaging, Spring 2017</h1>
-<h1 align="middle">Project 4: Cloth Simulator</h1>
-<h2 align="middle">YOUR NAME, CS184-??</h2>
+<h1 align="middle">Final Project Proposal : Rendering Realistic Smoke & Clouds</h1>
+<h2 align="middle">Sarah Au & Sol Ah Yoo</h2>
 
 <br><br>
 
 <div>
 
 <h2 align="middle">Overview</h2>
-<p>Give a high-level overview of what you implemented in this project. Think about what you've built as a whole. Share your thoughts on what interesting things you've learned from completing the project.</p>
+<p>We want to be able to render realistic looking smoke starting by computing single scattering, then implementing multi-scattering.</p>
 
-<h2 align="middle">Part I: Masses and springs</h2>
+<h2 align="middle">Problem Description</h2>
+<p>We don’t have the ability to render smoke with our path tracer from Project 3 so there are a lot of limitations to what types of scenes we could render. Adding volumetric rendering would allow us to render much more complicated and interesting scenes but the challenge would be to adapt our existing algorithm to work with the new algorithm and figuring out how to use the equations given in the research papers and textbook. </p>
+
+<h2 align="middle">Goals and Deliverables</h2>
+<p>We plan to render realistic smoke/gas from point cloud data using volume rendering techniques by modifying our implementation from Project 3. We want the algorithm to be efficient enough for it to be able to render in a decent amount of time even with indirect lighting. We will measure the performance of the project by how realistic our images look and how long the image takes to render.</p>
+<h4 align="middle"> Images like the ones we want to render</h4>
+<div align="middle">
+  <table style="width=100%">
+    <tr>
+      <td>
+        <img src="images/bunny.png" align="middle" width="400px"/>
+      </td>
+      <td>
+        <img src="images/cloud.png" align="middle" width="400px"/>
+    </tr>
+  </table>
+</div>
+<p>It would be nice if we could optimize the renderer by implementing ray marching and environment lighting effects. If we can also implement ray marching, we would also measure the quality by the rendering speed. We also want to try rendering fire.</p>
+
+<h2 align="middle">Schedule</h2>
+<p>Week 1 - Find/create files needed to render smoke and change raytracer implementation to work with them
+<p>Week 2 - Finish single scattering method and start multi-scattering method.</p>
+<p>Week 3 - Work on debugging and finishing all parts of the code, and if time permits, add more features.</p>
+<p>Week 4 - Work on poster and presentation sessions and video. Get all images for the webpage and complete all parts of the project.</p>
+<h2 align="middle">Resources</h2>
+<ul>
+<li>
+<a href=”http://www.kunzhou.net/2008/smoke.pdf “>Real-Time Smoke Rendering Using Compensated Ray Marching</a>
+</li>
+<li>
+<a href=”https://cseweb.ucsd.edu/~ravir/HRPIEG.pdf”>Practical Rendering of Multiple Scattering Effects in Participating Media</a>
+</li>
+<li>
+Physically Based Rendering Textbook
+</li>
+<li>
+<a href=”http://www.alanzucconi.com/2016/07/01/volumetric-rendering/”>Volumetric Rendering</a>
+</li>
+<li>
+<a href=”https://www.cs.dartmouth.edu/~wjarosz/publications/dissertation/chapter4.pdf”>Light Transport in Participating Media</a>
+</li>
+</ul>
 
 
 </body>

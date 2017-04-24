@@ -1,0 +1,648 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6"/>
+	<Project>
+		<Option title="PathTracer"/>
+		<Option makefile_is_custom="1"/>
+		<Option compiler="gcc"/>
+		<Option virtualFolders="CMake Files\;CMake Files\CGL\;CMake Files\CGL\deps\;CMake Files\CGL\deps\glew\;CMake Files\CGL\deps\glfw\;CMake Files\CGL\deps\glfw\src\;CMake Files\CGL\src\;CMake Files\src\;"/>
+		<Build>
+			<Target title="all">
+				<Option working_dir="/home/sarah/cs184/final_proj/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/sarah/cs184/final_proj/cmake-build-debug/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/sarah/cs184/final_proj/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/sarah/cs184/final_proj/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/sarah/cs184/final_proj/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="install/strip">
+				<Option working_dir="/home/sarah/cs184/final_proj/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/sarah/cs184/final_proj/cmake-build-debug/Makefile&quot;  VERBOSE=1 install/strip"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/sarah/cs184/final_proj/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/sarah/cs184/final_proj/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/sarah/cs184/final_proj/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="install/local">
+				<Option working_dir="/home/sarah/cs184/final_proj/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/sarah/cs184/final_proj/cmake-build-debug/Makefile&quot;  VERBOSE=1 install/local"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/sarah/cs184/final_proj/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/sarah/cs184/final_proj/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/sarah/cs184/final_proj/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="install">
+				<Option working_dir="/home/sarah/cs184/final_proj/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/sarah/cs184/final_proj/cmake-build-debug/Makefile&quot;  VERBOSE=1 install"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/sarah/cs184/final_proj/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/sarah/cs184/final_proj/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/sarah/cs184/final_proj/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="list_install_components">
+				<Option working_dir="/home/sarah/cs184/final_proj/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/sarah/cs184/final_proj/cmake-build-debug/Makefile&quot;  VERBOSE=1 list_install_components"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/sarah/cs184/final_proj/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/sarah/cs184/final_proj/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/sarah/cs184/final_proj/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="rebuild_cache">
+				<Option working_dir="/home/sarah/cs184/final_proj/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/sarah/cs184/final_proj/cmake-build-debug/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/sarah/cs184/final_proj/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/sarah/cs184/final_proj/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/sarah/cs184/final_proj/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="edit_cache">
+				<Option working_dir="/home/sarah/cs184/final_proj/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/sarah/cs184/final_proj/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/sarah/cs184/final_proj/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/sarah/cs184/final_proj/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/sarah/cs184/final_proj/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="glew">
+				<Option output="/home/sarah/cs184/final_proj/cmake-build-debug/CGL/deps/glew/libglew.a" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/sarah/cs184/final_proj/cmake-build-debug/CGL/deps/glew"/>
+				<Option object_output="./"/>
+				<Option type="2"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/home/sarah/cs184/final_proj/CGL/deps/glew/include"/>
+					<Add directory="/usr/include/c++/5"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/5"/>
+					<Add directory="/usr/include/c++/5/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/5/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/5/include-fixed"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/sarah/cs184/final_proj/cmake-build-debug/CGL/deps/glew/Makefile&quot;  VERBOSE=1 glew"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/sarah/cs184/final_proj/cmake-build-debug/CGL/deps/glew/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/sarah/cs184/final_proj/cmake-build-debug/CGL/deps/glew/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/sarah/cs184/final_proj/cmake-build-debug/CGL/deps/glew/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="glew/fast">
+				<Option output="/home/sarah/cs184/final_proj/cmake-build-debug/CGL/deps/glew/libglew.a" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/sarah/cs184/final_proj/cmake-build-debug/CGL/deps/glew"/>
+				<Option object_output="./"/>
+				<Option type="2"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/home/sarah/cs184/final_proj/CGL/deps/glew/include"/>
+					<Add directory="/usr/include/c++/5"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/5"/>
+					<Add directory="/usr/include/c++/5/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/5/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/5/include-fixed"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/sarah/cs184/final_proj/cmake-build-debug/CGL/deps/glew/Makefile&quot;  VERBOSE=1 glew/fast"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/sarah/cs184/final_proj/cmake-build-debug/CGL/deps/glew/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/sarah/cs184/final_proj/cmake-build-debug/CGL/deps/glew/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/sarah/cs184/final_proj/cmake-build-debug/CGL/deps/glew/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="uninstall">
+				<Option working_dir="/home/sarah/cs184/final_proj/cmake-build-debug/CGL/deps/glfw"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/sarah/cs184/final_proj/cmake-build-debug/CGL/deps/glfw/Makefile&quot;  VERBOSE=1 uninstall"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/sarah/cs184/final_proj/cmake-build-debug/CGL/deps/glfw/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/sarah/cs184/final_proj/cmake-build-debug/CGL/deps/glfw/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/sarah/cs184/final_proj/cmake-build-debug/CGL/deps/glfw/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="glfw">
+				<Option output="/home/sarah/cs184/final_proj/cmake-build-debug/CGL/deps/glfw/src/libglfw3.a" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/sarah/cs184/final_proj/cmake-build-debug/CGL/deps/glfw/src"/>
+				<Option object_output="./"/>
+				<Option type="2"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add option="-D_GLFW_USE_CONFIG_H"/>
+					<Add directory="/home/sarah/cs184/final_proj/CGL/deps/glfw/src"/>
+					<Add directory="/home/sarah/cs184/final_proj/cmake-build-debug/CGL/deps/glfw/src"/>
+					<Add directory="/usr/include/c++/5"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/5"/>
+					<Add directory="/usr/include/c++/5/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/5/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/5/include-fixed"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/sarah/cs184/final_proj/cmake-build-debug/CGL/deps/glfw/src/Makefile&quot;  VERBOSE=1 glfw"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/sarah/cs184/final_proj/cmake-build-debug/CGL/deps/glfw/src/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/sarah/cs184/final_proj/cmake-build-debug/CGL/deps/glfw/src/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/sarah/cs184/final_proj/cmake-build-debug/CGL/deps/glfw/src/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="glfw/fast">
+				<Option output="/home/sarah/cs184/final_proj/cmake-build-debug/CGL/deps/glfw/src/libglfw3.a" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/sarah/cs184/final_proj/cmake-build-debug/CGL/deps/glfw/src"/>
+				<Option object_output="./"/>
+				<Option type="2"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add option="-D_GLFW_USE_CONFIG_H"/>
+					<Add directory="/home/sarah/cs184/final_proj/CGL/deps/glfw/src"/>
+					<Add directory="/home/sarah/cs184/final_proj/cmake-build-debug/CGL/deps/glfw/src"/>
+					<Add directory="/usr/include/c++/5"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/5"/>
+					<Add directory="/usr/include/c++/5/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/5/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/5/include-fixed"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/sarah/cs184/final_proj/cmake-build-debug/CGL/deps/glfw/src/Makefile&quot;  VERBOSE=1 glfw/fast"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/sarah/cs184/final_proj/cmake-build-debug/CGL/deps/glfw/src/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/sarah/cs184/final_proj/cmake-build-debug/CGL/deps/glfw/src/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/sarah/cs184/final_proj/cmake-build-debug/CGL/deps/glfw/src/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="CGL">
+				<Option output="/home/sarah/cs184/final_proj/cmake-build-debug/CGL/src/libCGL.a" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/sarah/cs184/final_proj/cmake-build-debug/CGL/src"/>
+				<Option object_output="./"/>
+				<Option type="2"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/home/sarah/cs184/final_proj/CGL/include"/>
+					<Add directory="/home/sarah/cs184/final_proj/CGL/deps/glew/include"/>
+					<Add directory="/usr/include/freetype2"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/freetype2"/>
+					<Add directory="/home/sarah/cs184/final_proj/CGL/include/CGL"/>
+					<Add directory="/usr/include/c++/5"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/5"/>
+					<Add directory="/usr/include/c++/5/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/5/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/5/include-fixed"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/sarah/cs184/final_proj/cmake-build-debug/CGL/src/Makefile&quot;  VERBOSE=1 CGL"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/sarah/cs184/final_proj/cmake-build-debug/CGL/src/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/sarah/cs184/final_proj/cmake-build-debug/CGL/src/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/sarah/cs184/final_proj/cmake-build-debug/CGL/src/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="CGL/fast">
+				<Option output="/home/sarah/cs184/final_proj/cmake-build-debug/CGL/src/libCGL.a" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/sarah/cs184/final_proj/cmake-build-debug/CGL/src"/>
+				<Option object_output="./"/>
+				<Option type="2"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/home/sarah/cs184/final_proj/CGL/include"/>
+					<Add directory="/home/sarah/cs184/final_proj/CGL/deps/glew/include"/>
+					<Add directory="/usr/include/freetype2"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/freetype2"/>
+					<Add directory="/home/sarah/cs184/final_proj/CGL/include/CGL"/>
+					<Add directory="/usr/include/c++/5"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/5"/>
+					<Add directory="/usr/include/c++/5/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/5/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/5/include-fixed"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/sarah/cs184/final_proj/cmake-build-debug/CGL/src/Makefile&quot;  VERBOSE=1 CGL/fast"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/sarah/cs184/final_proj/cmake-build-debug/CGL/src/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/sarah/cs184/final_proj/cmake-build-debug/CGL/src/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/sarah/cs184/final_proj/cmake-build-debug/CGL/src/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="pathtracer">
+				<Option output="/home/sarah/cs184/final_proj/cmake-build-debug/pathtracer" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir=".."/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/home/sarah/cs184/final_proj/CGL/include"/>
+					<Add directory="/usr/include/freetype2"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/freetype2"/>
+					<Add directory="/usr/include/c++/5"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/5"/>
+					<Add directory="/usr/include/c++/5/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/5/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/5/include-fixed"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/sarah/cs184/final_proj/cmake-build-debug/src/Makefile&quot;  VERBOSE=1 pathtracer"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/sarah/cs184/final_proj/cmake-build-debug/src/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/sarah/cs184/final_proj/cmake-build-debug/src/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/sarah/cs184/final_proj/cmake-build-debug/src/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="pathtracer/fast">
+				<Option output="/home/sarah/cs184/final_proj/cmake-build-debug/pathtracer" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir=".."/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/home/sarah/cs184/final_proj/CGL/include"/>
+					<Add directory="/usr/include/freetype2"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/freetype2"/>
+					<Add directory="/usr/include/c++/5"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/5"/>
+					<Add directory="/usr/include/c++/5/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/5/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/5/include-fixed"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/sarah/cs184/final_proj/cmake-build-debug/src/Makefile&quot;  VERBOSE=1 pathtracer/fast"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/sarah/cs184/final_proj/cmake-build-debug/src/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/sarah/cs184/final_proj/cmake-build-debug/src/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/sarah/cs184/final_proj/cmake-build-debug/src/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+		</Build>
+		<Unit filename="/home/sarah/cs184/final_proj/CGL/deps/glew/src/glew.c">
+			<Option target="glew"/>
+		</Unit>
+		<Unit filename="/home/sarah/cs184/final_proj/CGL/deps/glew/src/glewinfo.c">
+			<Option target="glew"/>
+		</Unit>
+		<Unit filename="/home/sarah/cs184/final_proj/CGL/deps/glew/src/visualinfo.c">
+			<Option target="glew"/>
+		</Unit>
+		<Unit filename="/home/sarah/cs184/final_proj/CGL/deps/glfw/include/GLFW/glfw3.h">
+			<Option target="glfw"/>
+		</Unit>
+		<Unit filename="/home/sarah/cs184/final_proj/CGL/deps/glfw/include/GLFW/glfw3native.h">
+			<Option target="glfw"/>
+		</Unit>
+		<Unit filename="/home/sarah/cs184/final_proj/CGL/deps/glfw/src/context.c">
+			<Option target="glfw"/>
+		</Unit>
+		<Unit filename="/home/sarah/cs184/final_proj/CGL/deps/glfw/src/glx_context.c">
+			<Option target="glfw"/>
+		</Unit>
+		<Unit filename="/home/sarah/cs184/final_proj/CGL/deps/glfw/src/glx_context.h">
+			<Option target="glfw"/>
+		</Unit>
+		<Unit filename="/home/sarah/cs184/final_proj/CGL/deps/glfw/src/init.c">
+			<Option target="glfw"/>
+		</Unit>
+		<Unit filename="/home/sarah/cs184/final_proj/CGL/deps/glfw/src/input.c">
+			<Option target="glfw"/>
+		</Unit>
+		<Unit filename="/home/sarah/cs184/final_proj/CGL/deps/glfw/src/internal.h">
+			<Option target="glfw"/>
+		</Unit>
+		<Unit filename="/home/sarah/cs184/final_proj/CGL/deps/glfw/src/linux_joystick.c">
+			<Option target="glfw"/>
+		</Unit>
+		<Unit filename="/home/sarah/cs184/final_proj/CGL/deps/glfw/src/linux_joystick.h">
+			<Option target="glfw"/>
+		</Unit>
+		<Unit filename="/home/sarah/cs184/final_proj/CGL/deps/glfw/src/monitor.c">
+			<Option target="glfw"/>
+		</Unit>
+		<Unit filename="/home/sarah/cs184/final_proj/CGL/deps/glfw/src/posix_time.c">
+			<Option target="glfw"/>
+		</Unit>
+		<Unit filename="/home/sarah/cs184/final_proj/CGL/deps/glfw/src/posix_time.h">
+			<Option target="glfw"/>
+		</Unit>
+		<Unit filename="/home/sarah/cs184/final_proj/CGL/deps/glfw/src/posix_tls.c">
+			<Option target="glfw"/>
+		</Unit>
+		<Unit filename="/home/sarah/cs184/final_proj/CGL/deps/glfw/src/posix_tls.h">
+			<Option target="glfw"/>
+		</Unit>
+		<Unit filename="/home/sarah/cs184/final_proj/CGL/deps/glfw/src/window.c">
+			<Option target="glfw"/>
+		</Unit>
+		<Unit filename="/home/sarah/cs184/final_proj/CGL/deps/glfw/src/x11_init.c">
+			<Option target="glfw"/>
+		</Unit>
+		<Unit filename="/home/sarah/cs184/final_proj/CGL/deps/glfw/src/x11_monitor.c">
+			<Option target="glfw"/>
+		</Unit>
+		<Unit filename="/home/sarah/cs184/final_proj/CGL/deps/glfw/src/x11_platform.h">
+			<Option target="glfw"/>
+		</Unit>
+		<Unit filename="/home/sarah/cs184/final_proj/CGL/deps/glfw/src/x11_window.c">
+			<Option target="glfw"/>
+		</Unit>
+		<Unit filename="/home/sarah/cs184/final_proj/CGL/deps/glfw/src/xkb_unicode.c">
+			<Option target="glfw"/>
+		</Unit>
+		<Unit filename="/home/sarah/cs184/final_proj/CGL/deps/glfw/src/xkb_unicode.h">
+			<Option target="glfw"/>
+		</Unit>
+		<Unit filename="/home/sarah/cs184/final_proj/CGL/src/base64.cpp">
+			<Option target="CGL"/>
+		</Unit>
+		<Unit filename="/home/sarah/cs184/final_proj/CGL/src/color.cpp">
+			<Option target="CGL"/>
+		</Unit>
+		<Unit filename="/home/sarah/cs184/final_proj/CGL/src/complex.cpp">
+			<Option target="CGL"/>
+		</Unit>
+		<Unit filename="/home/sarah/cs184/final_proj/CGL/src/lodepng.cpp">
+			<Option target="CGL"/>
+		</Unit>
+		<Unit filename="/home/sarah/cs184/final_proj/CGL/src/matrix3x3.cpp">
+			<Option target="CGL"/>
+		</Unit>
+		<Unit filename="/home/sarah/cs184/final_proj/CGL/src/matrix4x4.cpp">
+			<Option target="CGL"/>
+		</Unit>
+		<Unit filename="/home/sarah/cs184/final_proj/CGL/src/osdfont.c">
+			<Option target="CGL"/>
+		</Unit>
+		<Unit filename="/home/sarah/cs184/final_proj/CGL/src/osdtext.cpp">
+			<Option target="CGL"/>
+		</Unit>
+		<Unit filename="/home/sarah/cs184/final_proj/CGL/src/quaternion.cpp">
+			<Option target="CGL"/>
+		</Unit>
+		<Unit filename="/home/sarah/cs184/final_proj/CGL/src/spectrum.cpp">
+			<Option target="CGL"/>
+		</Unit>
+		<Unit filename="/home/sarah/cs184/final_proj/CGL/src/tinyxml2.cpp">
+			<Option target="CGL"/>
+		</Unit>
+		<Unit filename="/home/sarah/cs184/final_proj/CGL/src/vector2D.cpp">
+			<Option target="CGL"/>
+		</Unit>
+		<Unit filename="/home/sarah/cs184/final_proj/CGL/src/vector3D.cpp">
+			<Option target="CGL"/>
+		</Unit>
+		<Unit filename="/home/sarah/cs184/final_proj/CGL/src/vector4D.cpp">
+			<Option target="CGL"/>
+		</Unit>
+		<Unit filename="/home/sarah/cs184/final_proj/CGL/src/viewer.cpp">
+			<Option target="CGL"/>
+		</Unit>
+		<Unit filename="/home/sarah/cs184/final_proj/cmake-build-debug/CGL/deps/glfw/src/glfw_config.h">
+			<Option target="glfw"/>
+		</Unit>
+		<Unit filename="/home/sarah/cs184/final_proj/src/application.cpp">
+			<Option target="pathtracer"/>
+		</Unit>
+		<Unit filename="/home/sarah/cs184/final_proj/src/application.h">
+			<Option target="pathtracer"/>
+		</Unit>
+		<Unit filename="/home/sarah/cs184/final_proj/src/bbox.cpp">
+			<Option target="pathtracer"/>
+		</Unit>
+		<Unit filename="/home/sarah/cs184/final_proj/src/bbox.h">
+			<Option target="pathtracer"/>
+		</Unit>
+		<Unit filename="/home/sarah/cs184/final_proj/src/bsdf.cpp">
+			<Option target="pathtracer"/>
+		</Unit>
+		<Unit filename="/home/sarah/cs184/final_proj/src/bsdf.h">
+			<Option target="pathtracer"/>
+		</Unit>
+		<Unit filename="/home/sarah/cs184/final_proj/src/bvh.cpp">
+			<Option target="pathtracer"/>
+		</Unit>
+		<Unit filename="/home/sarah/cs184/final_proj/src/bvh.h">
+			<Option target="pathtracer"/>
+		</Unit>
+		<Unit filename="/home/sarah/cs184/final_proj/src/camera.cpp">
+			<Option target="pathtracer"/>
+		</Unit>
+		<Unit filename="/home/sarah/cs184/final_proj/src/camera.h">
+			<Option target="pathtracer"/>
+		</Unit>
+		<Unit filename="/home/sarah/cs184/final_proj/src/collada/camera_info.cpp">
+			<Option target="pathtracer"/>
+		</Unit>
+		<Unit filename="/home/sarah/cs184/final_proj/src/collada/camera_info.h">
+			<Option target="pathtracer"/>
+		</Unit>
+		<Unit filename="/home/sarah/cs184/final_proj/src/collada/collada.cpp">
+			<Option target="pathtracer"/>
+		</Unit>
+		<Unit filename="/home/sarah/cs184/final_proj/src/collada/collada.h">
+			<Option target="pathtracer"/>
+		</Unit>
+		<Unit filename="/home/sarah/cs184/final_proj/src/collada/light_info.cpp">
+			<Option target="pathtracer"/>
+		</Unit>
+		<Unit filename="/home/sarah/cs184/final_proj/src/collada/light_info.h">
+			<Option target="pathtracer"/>
+		</Unit>
+		<Unit filename="/home/sarah/cs184/final_proj/src/collada/material_info.cpp">
+			<Option target="pathtracer"/>
+		</Unit>
+		<Unit filename="/home/sarah/cs184/final_proj/src/collada/material_info.h">
+			<Option target="pathtracer"/>
+		</Unit>
+		<Unit filename="/home/sarah/cs184/final_proj/src/collada/polymesh_info.cpp">
+			<Option target="pathtracer"/>
+		</Unit>
+		<Unit filename="/home/sarah/cs184/final_proj/src/collada/polymesh_info.h">
+			<Option target="pathtracer"/>
+		</Unit>
+		<Unit filename="/home/sarah/cs184/final_proj/src/collada/sphere_info.cpp">
+			<Option target="pathtracer"/>
+		</Unit>
+		<Unit filename="/home/sarah/cs184/final_proj/src/collada/sphere_info.h">
+			<Option target="pathtracer"/>
+		</Unit>
+		<Unit filename="/home/sarah/cs184/final_proj/src/dynamic_scene/mesh.cpp">
+			<Option target="pathtracer"/>
+		</Unit>
+		<Unit filename="/home/sarah/cs184/final_proj/src/dynamic_scene/mesh.h">
+			<Option target="pathtracer"/>
+		</Unit>
+		<Unit filename="/home/sarah/cs184/final_proj/src/dynamic_scene/scene.cpp">
+			<Option target="pathtracer"/>
+		</Unit>
+		<Unit filename="/home/sarah/cs184/final_proj/src/dynamic_scene/scene.h">
+			<Option target="pathtracer"/>
+		</Unit>
+		<Unit filename="/home/sarah/cs184/final_proj/src/dynamic_scene/sphere.cpp">
+			<Option target="pathtracer"/>
+		</Unit>
+		<Unit filename="/home/sarah/cs184/final_proj/src/dynamic_scene/sphere.h">
+			<Option target="pathtracer"/>
+		</Unit>
+		<Unit filename="/home/sarah/cs184/final_proj/src/halfEdgeMesh.cpp">
+			<Option target="pathtracer"/>
+		</Unit>
+		<Unit filename="/home/sarah/cs184/final_proj/src/halfEdgeMesh.h">
+			<Option target="pathtracer"/>
+		</Unit>
+		<Unit filename="/home/sarah/cs184/final_proj/src/main.cpp">
+			<Option target="pathtracer"/>
+		</Unit>
+		<Unit filename="/home/sarah/cs184/final_proj/src/meshEdit.cpp">
+			<Option target="pathtracer"/>
+		</Unit>
+		<Unit filename="/home/sarah/cs184/final_proj/src/meshEdit.h">
+			<Option target="pathtracer"/>
+		</Unit>
+		<Unit filename="/home/sarah/cs184/final_proj/src/misc/sphere_drawing.cpp">
+			<Option target="pathtracer"/>
+		</Unit>
+		<Unit filename="/home/sarah/cs184/final_proj/src/misc/sphere_drawing.h">
+			<Option target="pathtracer"/>
+		</Unit>
+		<Unit filename="/home/sarah/cs184/final_proj/src/pathtracer.cpp">
+			<Option target="pathtracer"/>
+		</Unit>
+		<Unit filename="/home/sarah/cs184/final_proj/src/pathtracer.h">
+			<Option target="pathtracer"/>
+		</Unit>
+		<Unit filename="/home/sarah/cs184/final_proj/src/sampler.cpp">
+			<Option target="pathtracer"/>
+		</Unit>
+		<Unit filename="/home/sarah/cs184/final_proj/src/sampler.h">
+			<Option target="pathtracer"/>
+		</Unit>
+		<Unit filename="/home/sarah/cs184/final_proj/src/static_scene/environment_light.cpp">
+			<Option target="pathtracer"/>
+		</Unit>
+		<Unit filename="/home/sarah/cs184/final_proj/src/static_scene/environment_light.h">
+			<Option target="pathtracer"/>
+		</Unit>
+		<Unit filename="/home/sarah/cs184/final_proj/src/static_scene/light.cpp">
+			<Option target="pathtracer"/>
+		</Unit>
+		<Unit filename="/home/sarah/cs184/final_proj/src/static_scene/light.h">
+			<Option target="pathtracer"/>
+		</Unit>
+		<Unit filename="/home/sarah/cs184/final_proj/src/static_scene/object.cpp">
+			<Option target="pathtracer"/>
+		</Unit>
+		<Unit filename="/home/sarah/cs184/final_proj/src/static_scene/object.h">
+			<Option target="pathtracer"/>
+		</Unit>
+		<Unit filename="/home/sarah/cs184/final_proj/src/static_scene/sphere.cpp">
+			<Option target="pathtracer"/>
+		</Unit>
+		<Unit filename="/home/sarah/cs184/final_proj/src/static_scene/sphere.h">
+			<Option target="pathtracer"/>
+		</Unit>
+		<Unit filename="/home/sarah/cs184/final_proj/src/static_scene/triangle.cpp">
+			<Option target="pathtracer"/>
+		</Unit>
+		<Unit filename="/home/sarah/cs184/final_proj/src/static_scene/triangle.h">
+			<Option target="pathtracer"/>
+		</Unit>
+		<Unit filename="/home/sarah/cs184/final_proj/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\"/>
+		</Unit>
+		<Unit filename="/home/sarah/cs184/final_proj/CGL/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\CGL\"/>
+		</Unit>
+		<Unit filename="/home/sarah/cs184/final_proj/CGL/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\CGL\"/>
+		</Unit>
+		<Unit filename="/home/sarah/cs184/final_proj/CGL/deps/glew/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\CGL\deps\glew\"/>
+		</Unit>
+		<Unit filename="/home/sarah/cs184/final_proj/CGL/deps/glew/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\CGL\deps\glew\"/>
+		</Unit>
+		<Unit filename="/home/sarah/cs184/final_proj/CGL/deps/glfw/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\CGL\deps\glfw\"/>
+		</Unit>
+		<Unit filename="/home/sarah/cs184/final_proj/CGL/deps/glfw/cmake_uninstall.cmake.in">
+			<Option virtualFolder="CMake Files\CGL\deps\glfw\"/>
+		</Unit>
+		<Unit filename="/home/sarah/cs184/final_proj/CGL/deps/glfw/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\CGL\deps\glfw\"/>
+		</Unit>
+		<Unit filename="/home/sarah/cs184/final_proj/CGL/deps/glfw/cmake_uninstall.cmake.in">
+			<Option virtualFolder="CMake Files\CGL\deps\glfw\"/>
+		</Unit>
+		<Unit filename="/home/sarah/cs184/final_proj/CGL/deps/glfw/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\CGL\deps\glfw\"/>
+		</Unit>
+		<Unit filename="/home/sarah/cs184/final_proj/CGL/deps/glfw/cmake_uninstall.cmake.in">
+			<Option virtualFolder="CMake Files\CGL\deps\glfw\"/>
+		</Unit>
+		<Unit filename="/home/sarah/cs184/final_proj/CGL/deps/glfw/src/glfw3Config.cmake.in">
+			<Option virtualFolder="CMake Files\CGL\deps\glfw\src\"/>
+		</Unit>
+		<Unit filename="/home/sarah/cs184/final_proj/CGL/deps/glfw/src/glfw_config.h.in">
+			<Option virtualFolder="CMake Files\CGL\deps\glfw\src\"/>
+		</Unit>
+		<Unit filename="/home/sarah/cs184/final_proj/CGL/deps/glfw/src/glfw3.pc.in">
+			<Option virtualFolder="CMake Files\CGL\deps\glfw\src\"/>
+		</Unit>
+		<Unit filename="/home/sarah/cs184/final_proj/CGL/deps/glfw/src/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\CGL\deps\glfw\src\"/>
+		</Unit>
+		<Unit filename="/home/sarah/cs184/final_proj/CGL/deps/glfw/src/glfw3Config.cmake.in">
+			<Option virtualFolder="CMake Files\CGL\deps\glfw\src\"/>
+		</Unit>
+		<Unit filename="/home/sarah/cs184/final_proj/CGL/deps/glfw/src/glfw_config.h.in">
+			<Option virtualFolder="CMake Files\CGL\deps\glfw\src\"/>
+		</Unit>
+		<Unit filename="/home/sarah/cs184/final_proj/CGL/deps/glfw/src/glfw3.pc.in">
+			<Option virtualFolder="CMake Files\CGL\deps\glfw\src\"/>
+		</Unit>
+		<Unit filename="/home/sarah/cs184/final_proj/CGL/deps/glfw/src/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\CGL\deps\glfw\src\"/>
+		</Unit>
+		<Unit filename="/home/sarah/cs184/final_proj/CGL/deps/glfw/src/glfw3Config.cmake.in">
+			<Option virtualFolder="CMake Files\CGL\deps\glfw\src\"/>
+		</Unit>
+		<Unit filename="/home/sarah/cs184/final_proj/CGL/deps/glfw/src/glfw_config.h.in">
+			<Option virtualFolder="CMake Files\CGL\deps\glfw\src\"/>
+		</Unit>
+		<Unit filename="/home/sarah/cs184/final_proj/CGL/deps/glfw/src/glfw3.pc.in">
+			<Option virtualFolder="CMake Files\CGL\deps\glfw\src\"/>
+		</Unit>
+		<Unit filename="/home/sarah/cs184/final_proj/CGL/deps/glfw/src/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\CGL\deps\glfw\src\"/>
+		</Unit>
+		<Unit filename="/home/sarah/cs184/final_proj/CGL/src/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\CGL\src\"/>
+		</Unit>
+		<Unit filename="/home/sarah/cs184/final_proj/CGL/src/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\CGL\src\"/>
+		</Unit>
+		<Unit filename="/home/sarah/cs184/final_proj/src/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\src\"/>
+		</Unit>
+	</Project>
+</CodeBlocks_project_file>

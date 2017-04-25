@@ -36,7 +36,7 @@
 <h2 align="middle">Overview</h2>
 
 <p>
-	So far for the project we have accomplished rendering homogeneous media by extending our pathtracer from Project 3, while our overall plan is to render heterogenous media. 
+	So far for the project we have accomplished rendering homogeneous media by extending our pathtracer from Project 3, while our overall plan is to render heterogenous media.
 </p>
 
 <p>
@@ -46,7 +46,33 @@
 <p>
 	We still have a significant amount of work to reach our goal of rendering heterogeneous media. To do this, we have to define density and other parameters per grid, and further extend our pathtracer to implement raymarching instead of simple intersection tests. We also have to implement in-scattering and out-scattering to make the renders seem more realistic, and we would also like to add in emissive effects. We found some datasets with already defined density grids, but we would like to generate grids for some of the files given to us in the class projects.
 </p>
+<h4 align="middle"> Homogeneous sphere clouds </h4>
+<div align="middle">
+  <table style="width=100%">
+    <tr>
+      <td>
+        <img src="../images/sphere_.5.png" align="middle" width="400px"/>
+        <figcaption align="middle"> Sphere with $\sigma_a = 0.5$ </figcaption>
+      </td>
+      <td>
+        <img src="../images/sphere_2.5.png" align="middle" width="400px"/>
+        <figcaption align="middle"> Sphere with $\sigma_a = 2.5$ </figcaption>
+    </tr>
+    <tr>
+      <td>
+        <img src="../images/sphere_5.1.png" align="middle" width="400px"/>
+        <figcaption align="middle"> Sphere with $\sigma_a = 5.1$ </figcaption>
+      </td>
+      <td>
+        <img src="../images/sphere_12.5.png" align="middle" width="400px"/>
+        <figcaption align="middle"> Sphere with $\sigma_a = 12.5$ </figcaption>
+    </tr>
+  </table>
+</div>
 
+<p> As shown above, smaller absorption coefficients create lighter smoke while larger coefficients create darker and more dense smoke because as more particles absorb light, the thicker the smoke gets. With $\sigma_a = 0.5$, the sphere is barely visible, while with $\sigma_a = 12.5$,  the sphere looks almost solid (without the shading). The shadows on the ground also changes with the coefficient. The participating media absorbs light between the light source to the ground plane and casts a shadow. Hence, the thicker the smoke, the darker the shadow. </p>
+<p>Because we hardcoded the coefficient value, the sphere smoke is uniform in density. But for later parts of the project, we plan to have a grid with different densities, as stated above, to render more realistic looking smoke. </p>
+<p> </p>
 
 </body>
 </html>

@@ -1,0 +1,46 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<style>
+  body {
+    padding: 100px;
+    width: 1000px;
+    margin: auto;
+    text-align: left;
+    font-weight: 300;
+    font-family: 'Open Sans', sans-serif;
+    color: #121212;
+  }
+  h1, h2, h3, h4 {
+    font-family: 'Source Sans Pro', sans-serif;
+  }
+</style>
+<title>CS 184 Final Project Proposal</title>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link href="https://fonts.googleapis.com/css?family=Open+Sans|Source+Sans+Pro" rel="stylesheet">
+</head>
+
+
+<body>
+
+<h1 align="middle">CS 184: Computer Graphics and Imaging, Spring 2017</h1>
+<h1 align="middle">Final Project Milestone: Rendering Realistic Smoke and Clouds</h1>
+<h2 align="middle">Sarah Au and Sol Ah Yoo</h2>
+
+<h2 align="middle">Overview</h2>
+
+<p>
+	So far for the project we have accomplished rendering homogenous media by extending our pathtracer from project 3, while our overall plan is to render heterogenous media. 
+</p>
+
+<p>
+	We hardcoded in a default absorption coefficient, which affects the radiance along a light ray as the ray moves through the media. The incoming radiance that reaches an intersection point is reduced from traveling through the medium, as well as the radiance that reaches our eye as we shoot a ray from the camera to the intersection point.
+</p>
+
+<p>
+	We still have a significant amount of work to reach our goal of rendering heterogenous media. To do this, we have to define density and other parameters per grid, and further extend our pathtracer to implement raymarching instead of simple intersection tests. We also have to implement in-scattering and out-scattering to make the renders seem more realistic, and we would also like to add in emissive effects.
+</p>
+
+
+</body>
+</html>

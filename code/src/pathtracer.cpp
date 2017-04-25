@@ -536,7 +536,7 @@ Spectrum PathTracer::sample_medium(const Ray&r, const Intersection& isect) {
 }
 
 static float absorption_reduction(double d) {
-  return exp(- 1.5 * d);
+  return exp(- 0.5 * d);
 }
 
 Spectrum PathTracer::estimate_direct_lighting(const Ray& r, const Intersection& isect) {

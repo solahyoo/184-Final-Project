@@ -21,7 +21,7 @@ struct Ray {
   mutable double max_t; ///< treat the ray as a segment (ray "ends" at max_t)
 
   Vector3D inv_d;  ///< component wise inverse
-  int sign[3];     ///< fast ray-bbox intersection
+  int sign[3];     ///< fast ray-bbox intersections
 
   /**
    * Constructor.

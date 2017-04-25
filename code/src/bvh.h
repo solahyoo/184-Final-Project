@@ -108,6 +108,8 @@ class BVHAccel : public Aggregate {
 
   bool intersect(const Ray& r, Intersection* i, BVHNode *node) const;
 
+  bool intersect_medium(const Ray& r, BVHNode *node, double &d) const;
+
   /**
    * Get BSDF of the surface material
    * Note that this does not make sense for the BVHAccel aggregate

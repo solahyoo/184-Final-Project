@@ -38,6 +38,10 @@ class Aggregate : public Primitive {
    */
   BSDF* get_bsdf() const { return NULL; }
 
+  float medium_dist(const Ray& r) const {
+    return 0.0f;
+  }
+
   bool is_medium() const {
     return false;
   }

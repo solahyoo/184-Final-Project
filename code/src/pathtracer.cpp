@@ -535,6 +535,9 @@ Spectrum PathTracer::sample_medium(const Ray&r, const Intersection& isect) {
   return Spectrum();
 }
 
+static float absorption_reduction(double d) {
+  return exp(- 1.5 * d);
+}
 
 Spectrum PathTracer::estimate_direct_lighting(const Ray& r, const Intersection& isect) {
 
@@ -578,9 +581,21 @@ Spectrum PathTracer::estimate_direct_lighting(const Ray& r, const Intersection& 
       shadow_ray.max_t = distToLight;
       shadow_ray.o += EPS_D * wi;
 
-      if (!bvh->intersect(shadow_ray)) {
+      // bool shadow_intersect = bvh->intersect(shadow_ray);
+
+      if (!bvh->intersect(shadow_ray)) { // connecting to light
         Spectrum s = isect.bsdf->f(w_out, w_in);
-        s_light += s_i * dot(wi, isect.n) * s / pdf;
+        Spectrum s_direct_lighting = s_i * dot(wi, isect.n) * s / pdf;
+
+        double d;
+        bool medium_isect = bvh->intersect_medium(shadow_ray, bvh->get_root(), d);
+
+        if (medium_isect) {
+          s_light += absorption_reduction(d) * s_direct_lighting;
+        } else {
+          s_light += s_i * dot(wi, isect.n) * s / pdf;
+          
+        }
       }
 
     }
@@ -590,6 +605,19 @@ Spectrum PathTracer::estimate_direct_lighting(const Ray& r, const Intersection& 
 
   // COMMENT OUT normal_shading IN trace_ray BEFORE YOU BEGIN
 
+  // if medium between intersection point and eye view
+  // if (ray.m != NULL) {
+  //   L_out *= absorption_reduction(ray.m);
+  //   std::cout << "between eye" << std::endl;
+  // }
+
+  double d1;
+  bool medium_isect = bvh->intersect_medium(r, bvh->get_root(), d1);
+
+  if (medium_isect) {
+    L_out *= absorption_reduction(d1);
+  } 
+  
   return L_out;
 }
 

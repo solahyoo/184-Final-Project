@@ -36,6 +36,10 @@ namespace CGL { namespace StaticScene {
     return false;
   }
 
+  float medium_dist(const Ray& r) const {
+    return 0.0f;
+  }
+
    /**
     * Ray - Triangle intersection.
     * Check if the given ray intersects with the triangle, no intersection

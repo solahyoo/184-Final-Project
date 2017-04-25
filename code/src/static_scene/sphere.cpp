@@ -91,6 +91,17 @@ bool Sphere::intersect(const Ray& r, Intersection *i) const {
 
 }
 
+float Sphere::medium_dist(const Ray& r) const  {
+  double t1, t2;
+  bool intersects = test(r, t1, t2);
+  if (!intersects) return -1;
+
+  Vector3D d1 = r.o + t1 * r.d;
+  Vector3D d2 = r.o + t2 * r.d;
+
+  return (d2 - d1).norm();
+  // return 0.0f;
+}
 
 // bool Sphere::intersect(const Ray& r, Intersection* i, float& distance) const {
 //   return false;

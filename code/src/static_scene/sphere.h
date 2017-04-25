@@ -62,9 +62,13 @@ class Sphere : public Primitive {
    */
   BSDF* get_bsdf() const { return object->get_bsdf(); }
 
+  float medium_dist(const Ray& r) const;
+
   bool is_medium() const {
     return true;
   }
+
+  float intersection(const Ray& r) const;
 
   /**
    * Compute the normal at a point of intersection.

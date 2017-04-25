@@ -30,6 +30,8 @@ class Primitive {
    */
   virtual bool intersect(const Ray& r) const = 0;
 
+  virtual float medium_dist(const Ray& r) const = 0;
+
   /**
    * Ray - Primitive intersection 2.
    * Check if the given ray intersects with the primitive, if so, the input

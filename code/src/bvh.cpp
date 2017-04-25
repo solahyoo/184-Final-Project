@@ -162,5 +162,34 @@ bool BVHAccel::intersect(const Ray& ray, Intersection* i, BVHNode *node) const {
 
 }
 
+bool BVHAccel::intersect_medium(const Ray& ray, BVHNode *node, double &d) const {
+  if (node == NULL) return false;
+
+  if (!node->bb.intersect(ray, ray.min_t, ray.max_t)) return false;
+
+  bool hit = false;
+
+  if (node->isLeaf()) {
+    for (Primitive *p: *(node->prims)) {
+      total_isects++;
+      if (p->is_medium()) {
+        double dis = p->medium_dist(ray);
+        if (dis > 0) {
+          d = dis;
+          return true;
+        }
+      }
+    }
+    return hit;
+  }
+
+  bool hit_left = false, hit_right = false;
+  if (node->l != NULL) hit_left = intersect_medium(ray, node->l, d);
+  if (node->r != NULL) hit_right = intersect_medium(ray, node->r, d);
+  if (hit_left || hit_right) return true;
+
+  return false;
+}
+
 }  // namespace StaticScene
 }  // namespace CGL

@@ -53,13 +53,25 @@ class Grid {
     return BBox(Vector3D(), Vector3D(1, 1, 1));
   }
 
- float medium_dist(const Ray& r) const;
+  float D(const Vector3D &v) const {
+    BBox b =
+    bool inside_exclusive = v.x >= 0 && v.x < x && v.y >= 0 && v.y < y &&
+                            v.z >= 0 && v.z < z;
+    if (!inside_exclusive)
+      return 0;
+    return density[(v.z * y + v.y) * x + v.x];
+  }
 
- float intersection(const Ray& r) const;
+  float medium_dist(const Ray& r) const;
 
- Spectrum transmittance(const Ray& r) const;
+  float intersection(const Ray& r) const;
 
- Spectrum sample(const Ray& r);
+
+  float trilerp_density(const Vector3D& v) const;
+
+  Spectrum sample(const Ray& r);
+
+  Spectrum transmittance(const Ray& r) const;
 
 
 

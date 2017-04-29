@@ -14,6 +14,7 @@
 #include "sphere_info.h"
 #include "polymesh_info.h"
 #include "material_info.h"
+#include "grid_info.h"
 
 using namespace tinyxml2;
 
@@ -68,7 +69,8 @@ class ColladaParser {
   static void parse_light		 ( XMLElement* xml, LightInfo& 		light		 );
 	static void parse_sphere	 ( XMLElement* xml, SphereInfo& 	sphere	 );
   static void parse_polymesh ( XMLElement* xml, PolymeshInfo& polymesh );
-	static void parse_material ( XMLElement* xml, MaterialInfo&	material );
+  static void parse_material ( XMLElement* xml, MaterialInfo&	material );
+	static void parse_grid     ( XMLElement* xml, GridInfo&	grid );
 
 }; // class ColladaParser
 

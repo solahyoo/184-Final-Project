@@ -27,7 +27,8 @@ class Instance {
     LIGHT,
     SPHERE,
     POLYMESH,
-    MATERIAL
+    MATERIAL,
+    GRID
   };
 
   Type type;  	 ///< type of instance

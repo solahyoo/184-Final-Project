@@ -20,6 +20,7 @@
 #include "collada/sphere_info.h"
 #include "collada/polymesh_info.h"
 #include "collada/material_info.h"
+#include "collada/grid_info.h"
 
 // MeshEdit
 #include "dynamic_scene/scene.h"
@@ -33,6 +34,9 @@
 
 // Shared modules
 #include "camera.h"
+
+// Density Grid for heterogeneous participating media
+#include "grid.h"
 
 using namespace std;
 
@@ -98,9 +102,9 @@ class Application : public Renderer {
   void keyboard_event( int key, int event, unsigned char mods  );
 
   void load(Collada::SceneInfo* sceneInfo);
-  void render_to_file(std::string filename, size_t x, size_t y, size_t dx, size_t dy) { 
+  void render_to_file(std::string filename, size_t x, size_t y, size_t dx, size_t dy) {
     set_up_pathtracer();
-    pathtracer->render_to_file(filename,x,y,dx,dy); 
+    pathtracer->render_to_file(filename,x,y,dx,dy);
   }
 
   void load_camera(std::string filename) {
@@ -121,6 +125,7 @@ class Application : public Renderer {
 
   DynamicScene::Scene *scene;
   PathTracer* pathtracer;
+  Grid* grid;
 
   // View Frustrum Variables.
   // On resize, the aspect ratio is changed. On reset_camera, the position and
@@ -163,6 +168,7 @@ class Application : public Renderer {
   DynamicScene::SceneLight *init_light(Collada::LightInfo& light, const Matrix4x4& transform);
   DynamicScene::SceneObject *init_sphere(Collada::SphereInfo& polymesh, const Matrix4x4& transform);
   DynamicScene::SceneObject *init_polymesh(Collada::PolymeshInfo& polymesh, const Matrix4x4& transform);
+  Grid *init_grid(Collada::GridInfo& grid, const Matrix4x4& transform);
   void init_material(Collada::MaterialInfo& material);
 
   void set_scroll_rate();

@@ -68,7 +68,7 @@ SphereObject::SphereObject(const Vector3D& o, double r, BSDF* bsdf) {
   this->o = o;
   this->r = r;
   this->bsdf = bsdf;
-  
+
 }
 
 std::vector<Primitive*> SphereObject::get_primitives() const {
@@ -81,6 +81,28 @@ BSDF* SphereObject::get_bsdf() const {
   return bsdf;
 }
 
+// // Grid for Participating Media object //
+//
+// Grid::Grid (size_t x, size_t y, size_t z, const Vector3D& pos1, const Vector3D& pos2, BSDF* bsdf) {
+//
+//   this->x = x;
+//   this->y = y;
+//   this->z = z;
+//   this->pos1 = pos1;
+//   this->pos2 = pos2;
+//   this->bsdf = bsdf;
+//
+// }
+//
+// std::vector<Primitive*> Grid::get_primitives() const {
+//   std::vector<Primitive*> primitives;
+//   primitives.push_back(new Media(this, x, y, z, pos1, pos2));
+//   return primitives;
+// }
+//
+// BSDF* Grid::get_bsdf() const {
+//   return bsdf;
+// }
 
 } // namespace StaticScene
 } // namespace CGL

@@ -10,6 +10,7 @@ set(APPLICATION_SOURCE
     collada/sphere_info.cpp
     collada/polymesh_info.cpp
     collada/material_info.cpp
+    collada/grid_info.cpp
 
     # Dynamic Scene
     dynamic_scene/mesh.cpp
@@ -34,6 +35,7 @@ set(APPLICATION_SOURCE
     camera.cpp
     sampler.cpp
     pathtracer.cpp
+    grid.cpp
 
     # misc
     misc/sphere_drawing.cpp

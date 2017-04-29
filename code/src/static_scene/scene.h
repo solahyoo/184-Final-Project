@@ -3,6 +3,7 @@
 
 #include "CGL/CGL.h"
 #include "primitive.h"
+#include "../grid.h"
 
 #include <vector>
 
@@ -40,6 +41,13 @@ class SceneLight {
 
 };
 
+class SceneGrid {
+  public:
+    float intersection(const Ray& r) const;
+
+    Spectrum transmittance(const Ray& r) const;
+};
+
 
 /**
  * Represents a scene in a raytracer-friendly format. To speed up raytracing,
@@ -57,17 +65,24 @@ struct Scene {
   // for sake of consistency of the scene object Interface
   std::vector<SceneLight*> lights;
 
+  // grid for participating media
+  Grid* grid;
+
+  // can change to the vector below to add support for multiple grids in scene
+  // Then also need to add SceneGrid and make Grid inherit from that class
+  // std::vector<SceneGrid*> grid;
+
   // TODO (sky) :
-  // Adding object with emission BSDFs as mesh lights and sphere lights so 
-  // that light sampling configurations also applies to mesh lights. 
+  // Adding object with emission BSDFs as mesh lights and sphere lights so
+  // that light sampling configurations also applies to mesh lights.
 //  for (SceneObject *obj : objects) {
 //    if (obj->get_material().emit != Spectrum()) {
-//      
+//
 //      // mesh light
 //      if (dynamic_cast<Mesh*>(obj)) {
 //        staticLights.push_back()
 //      }
-//      
+//
 //      // sphere light
 //      if (dynamic_cast<Sphere*>(obj)) {
 //

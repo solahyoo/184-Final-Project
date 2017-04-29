@@ -8,8 +8,10 @@
 #include "dynamic_scene/spot_light.h"
 #include "dynamic_scene/sphere.h"
 #include "dynamic_scene/mesh.h"
+#include "grid.h"
 
 using Collada::CameraInfo;
+using Collada::GridInfo;
 using Collada::LightInfo;
 using Collada::MaterialInfo;
 using Collada::PolymeshInfo;
@@ -256,6 +258,9 @@ void Application::load(SceneInfo* sceneInfo) {
       case Collada::Instance::MATERIAL:
         init_material(static_cast<MaterialInfo&>(*instance));
         break;
+      case Collada::Instance::GRID:
+        grid = init_grid(static_cast<GridInfo&>(*instance), transform);
+        break;
      }
   }
 
@@ -345,6 +350,11 @@ DynamicScene::SceneObject *Application::init_polymesh(
   return new DynamicScene::Mesh(polymesh, transform);
 }
 
+Grid *Application::init_grid(
+    GridInfo& grid, const Matrix4x4& transform) {
+  return new Grid(grid, transform);
+}
+
 void Application::set_scroll_rate() {
   scroll_rate = canonical_view_distance / 10;
 }
@@ -431,7 +441,7 @@ void Application::keyboard_event(int key, int event, unsigned char mods) {
         case '+': case '=':
         case '-': case '_':
         case '.': case '>':
-        case ',': case '<':  
+        case ',': case '<':
         case ';': case ':':
         case '\'': case '\"':
         case 'k': case 'K':
@@ -440,7 +450,7 @@ void Application::keyboard_event(int key, int event, unsigned char mods) {
             pathtracer->key_press(key);
             pathtracer->start_raytracing();
             break;
-        case 'C': 
+        case 'C':
             pathtracer->key_press(key);
             break;
         case 'r': case 'R':
@@ -619,9 +629,11 @@ void Application::to_edit_mode() {
 void Application::set_up_pathtracer() {
   if (mode != EDIT_MODE) return;
   pathtracer->set_camera(&camera);
-  pathtracer->set_scene(scene->get_static_scene());
+  StaticScene::Scene *static_scene = scene->get_static_scene();
+  static_scene->grid = grid;
+  pathtracer->set_scene(static_scene);
   pathtracer->set_frame_size(screenW, screenH);
-
+  pathtracer->build_density_grid(static_scene->grid);
 }
 
 Matrix4x4 Application::get_world_to_3DH() {

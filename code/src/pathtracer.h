@@ -15,6 +15,7 @@
 #include "camera.h"
 #include "sampler.h"
 #include "image.h"
+#include "grid.h"
 #include "work_queue.h"
 #include "intersection.h"
 
@@ -26,6 +27,7 @@ using CGL::StaticScene::EnvironmentLight;
 
 using CGL::StaticScene::BVHNode;
 using CGL::StaticScene::BVHAccel;
+using CGL::StaticScene::Grid;
 
 namespace CGL {
 
@@ -60,7 +62,7 @@ class PathTracer {
    * Default constructor.
    * Creates a new pathtracer instance.
    */
-  PathTracer(size_t ns_aa = 1, 
+  PathTracer(size_t ns_aa = 1,
              size_t max_ray_depth = 4, size_t ns_area_light = 1,
              size_t ns_diff = 1, size_t ns_glsy = 1, size_t ns_refr = 1,
              size_t num_threads = 1,
@@ -150,6 +152,11 @@ class PathTracer {
    * Save sampling rates to png file.
    */
   void save_sampling_rate_image(std::string filename);
+
+  /**
+   * Build density grid for participating media.
+   */
+  void build_density_grid(Grid* grid);
 
   Vector2D cell_tl, cell_br;
   bool render_cell;
@@ -252,6 +259,7 @@ class PathTracer {
   ImageBuffer frameBuffer;            ///< frame buffer
   Timer timer;                        ///< performance test timer
   std::vector<int> sampleCountBuffer;   ///< sample count buffer
+  Grid* densityGrid;                   ///< density grid
 
   // Internals //
 

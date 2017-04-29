@@ -351,9 +351,14 @@ void ColladaParser::parse_node( XMLElement* xml ) {
   // non-joint nodes must contain a scene object instance
   XMLElement* e_camera   = get_element(xml, "instance_camera");
   XMLElement* e_light    = get_element(xml, "instance_light");
-	XMLElement* e_geometry = get_element(xml, "instance_geometry");
+  XMLElement* e_geometry = get_element(xml, "instance_geometry");
+	XMLElement* e_grid     = get_element(xml, "instance_grid");
 
-  if (e_camera) {
+  if (e_grid) {
+    GridInfo* grid = new GridInfo();
+    parse_grid( e_grid, *grid );
+    node.instance = grid;
+  } else if (e_camera) {
     CameraInfo* camera = new CameraInfo();
     parse_camera( e_camera, *camera );
     node.instance = camera;
@@ -427,6 +432,72 @@ void ColladaParser::parse_node( XMLElement* xml ) {
 
 	// add node to scene
 	scene->nodes.push_back(node);
+}
+void ColladaParser::parse_grid( XMLElement* xml, GridInfo& grid ) {
+  // name & id
+  grid.id = xml->Attribute( "id" );
+  grid.name = xml->Attribute("name");
+  grid.type = Instance::GRID;
+
+  XMLElement* e_grid = xml->FirstChildElement("grid");
+  if (!e_grid) {
+    stat("Error: no grid data defined in geometry: " << grid.id);
+    exit(EXIT_FAILURE);
+  }
+
+  // get absorption and scattering coefficients
+  XMLElement* e_sigma_a = get_element(e_grid, "coeff/a");
+  XMLElement* e_sigma_s = get_element(e_grid, "coeff/s");
+  if (!e_sigma_a || !e_sigma_s) {
+    stat ("Error: No coefficient definition for grid");
+    exit(EXIT_FAILURE);
+  } else {
+    string sigma_a_string = e_sigma_a->GetText();
+    string sigma_s_string = e_sigma_s->GetText();
+    grid.sigma_a = spectrum_from_string( sigma_a_string );
+    grid.sigma_s = spectrum_from_string( sigma_s_string );
+  }
+
+  // size of array
+  XMLElement* e_x = get_element(e_grid, "size/x");
+  XMLElement* e_y = get_element(e_grid, "size/y");
+  XMLElement* e_z = get_element(e_grid, "size/z");
+  if (!e_x || !e_y || !e_z) {
+    stat("Error: invalid grid definition in geometry: " << grid.id);
+    exit(EXIT_FAILURE);
+  }
+  grid.x = atof(e_x->GetText());
+  grid.y = atof(e_y->GetText());
+  grid.z = atof(e_z->GetText());
+
+  XMLElement* e_source = e_grid->FirstChildElement("source");
+  while (e_source) {
+    // source id
+    string source_id = e_source->Attribute("id");
+
+    // source float array
+    XMLElement* e_float_array = e_source->FirstChildElement("float_array");
+    if (e_float_array) {
+      float f;
+
+      // load float array string
+      string s = e_float_array->GetText();
+      stringstream ss (s);
+
+      // load float array
+      int num_floats = grid.x * grid.y * grid.z;
+      float max_density = 0;
+      for (size_t i = 0; i < num_floats; ++i) {
+        ss >> f; grid.densities.push_back(f);
+        max_density = std::max(max_density, f);
+      }
+      grid.max_density = max_density;
+      e_source = e_source->NextSiblingElement("source");
+    }
+  }
+
+  // print summary
+  stat("  |- " << grid);
 }
 
 void ColladaParser::parse_camera( XMLElement* xml, CameraInfo& camera ) {

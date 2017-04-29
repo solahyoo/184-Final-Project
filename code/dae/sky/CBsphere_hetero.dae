@@ -41,11 +41,18 @@
           </perspective>
         </technique_common>
       </optics>
+      <extra>
+        <technique profile="blender">
+          <YF_dofdist>0</YF_dofdist>
+          <shiftx>0</shiftx>
+          <shifty>0</shifty>
+        </technique>
+      </extra>
     </camera>
   </library_cameras>
   <library_images/>
   <library_effects>
-    <effect id="lambertian-effect">
+    <effect id="chrome-effect">
       <profile_COMMON>
         <technique sid="common">
           <phong>
@@ -56,7 +63,7 @@
               <color sid="ambient">0 0 0 1</color>
             </ambient>
             <diffuse>
-              <color sid="diffuse">0.8 0.8 0.8 1</color>
+              <color sid="diffuse">0.64 0.64 0.64 1</color>
             </diffuse>
             <specular>
               <color sid="specular">0.5 0.5 0.5 1</color>
@@ -70,6 +77,13 @@
           </phong>
         </technique>
       </profile_COMMON>
+      <extra>
+        <technique profile="CGL">
+          <mirror>
+            <reflectance>1 1 1</reflectance>
+          </mirror>
+        </technique>
+      </extra>
     </effect>
     <effect id="glass-effect">
       <profile_COMMON>
@@ -82,7 +96,7 @@
               <color sid="ambient">0 0 0 1</color>
             </ambient>
             <diffuse>
-              <color sid="diffuse">0.8 0.8 0.8 1</color>
+              <color sid="diffuse">0.64 0.64 0.64 1</color>
             </diffuse>
             <specular>
               <color sid="specular">0.5 0.5 0.5 1</color>
@@ -96,6 +110,16 @@
           </phong>
         </technique>
       </profile_COMMON>
+      <extra>
+        <technique profile="CGL">
+          <glass>
+            <reflectance>1 1 1</reflectance>
+            <transmittance>1 1 1</transmittance>
+            <roughness>0</roughness>
+            <ior>1.45</ior>
+          </glass>
+        </technique>
+      </extra>
     </effect>
     <effect id="ceiling-effect">
       <profile_COMMON>
@@ -262,8 +286,8 @@
     </effect>
   </library_effects>
   <library_materials>
-    <material id="lambertian" name="lambertian">
-      <instance_effect url="#lambertian-effect"/>
+    <material id="chrome" name="chrome">
+      <instance_effect url="#chrome-effect"/>
     </material>
     <material id="refract" name="refract">
       <instance_effect url="#glass-effect"/>
@@ -297,14 +321,21 @@
         </technique>
       </extra>
     </geometry>
-    <geometry id="Sphere2-data" name="Sphere2">
-      <extra>
-        <technique profile="CGL">
-          <sphere>
-            <radius>.3</radius>
-          </sphere>
-        </technique>
-      </extra>
+    <geometry id="Grid-data" name="Grid">
+      <grid>
+        <coeff>
+          <a>.1 .1 .4 1</a>
+          <s>.4 .1 .1 1</s>
+        </coeff>
+        <size>
+          <x>3</x>
+          <y>3</y>
+          <z>2</z>
+        </size>
+        <source id="Grid-densities">
+          <float_array id="Grid-densities-array"> 0.1 0.2 0.5 0.4 0.2 0.1 0.4 0.5 0.9 0.1 0.2 0.5 0.6 0.2 0.7 0.4 0.5 0.4</float_array>
+        </source>
+      </grid>
     </geometry>
     <geometry id="ceiling-mesh" name="ceiling">
       <mesh>
@@ -582,15 +613,15 @@
           </bind_material>
         </instance_geometry>
       </node>
-      <node id="Sphere2" name="Sphere2" type="NODE">
+      <node id="Grid" name="Grid" type="NODE">
         <matrix sid="transform">1 0 0 0.4 0 1 0 -0.3 0 0 1 0.3 0 0 0 1</matrix>
-        <instance_geometry url="#Sphere1-data">
+        <instance_grid url="#Grid-data">
           <bind_material>
             <technique_common>
-              <instance_material symbol="lambertian" target="#lambertian"/>
+              <instance_material symbol="chrome" target="#chrome"/>
             </technique_common>
           </bind_material>
-        </instance_geometry>
+        </instance_grid>
       </node>
       <node id="Camera" name="Camera" type="NODE">
         <matrix sid="transform">-1 0 0 0 0 0 1 3 0 1 0 0 0 0 0 1</matrix>

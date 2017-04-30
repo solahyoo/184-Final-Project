@@ -656,7 +656,8 @@ Spectrum PathTracer::trace_ray(const Ray &r, bool includeLe) {
   if (densityGrid != nullptr) {
     beta = densityGrid->sample(r, &mi);
     if (mi.is_medium) {
-      L_out += beta * estimate_direct_lighting(r, mi);
+      direct = estimate_direct_lighting(r, mi);
+      L_out += beta * direct;
       Vector3D wo = -r.d;
       Vector3D hit_p = r.o + r.d * mi.t;
       Vector3D wi;

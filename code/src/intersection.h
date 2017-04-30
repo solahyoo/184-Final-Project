@@ -26,7 +26,7 @@ struct Intersection {
   Intersection(double t, Grid* grid, const Vector3D &wo) : t(t), grid(grid), wo(wo) {
     primitive = NULL;
     bsdf = NULL;
-    n = Vector3D();
+    n = Vector3D(0, 0, 1);
     is_medium = true;
   }
 

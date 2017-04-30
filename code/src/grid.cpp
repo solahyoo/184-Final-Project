@@ -76,8 +76,6 @@ namespace CGL { namespace StaticScene {
         tr /= 1 - a;
       }
     }
-    if (tr != 1)
-      cout << "transmittance " << tr << endl;
     return Spectrum(tr, tr, tr);
   }
 

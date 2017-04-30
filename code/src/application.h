@@ -125,7 +125,7 @@ class Application : public Renderer {
 
   DynamicScene::Scene *scene;
   PathTracer* pathtracer;
-  Grid* grid;
+  Grid* grid = NULL;
 
   // View Frustrum Variables.
   // On resize, the aspect ratio is changed. On reset_camera, the position and

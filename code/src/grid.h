@@ -46,7 +46,6 @@ class Grid {
       x(x), y(y), z(z),
       density(d) {
 
-      // memcpy((float *)density.get(), d, sizeof(float) * x * y * z);
       sigma_t = (sigma_a + sigma_s).r;
 
       g = .5; // change later

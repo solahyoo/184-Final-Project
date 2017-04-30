@@ -653,7 +653,7 @@ Spectrum PathTracer::trace_ray(const Ray &r, bool includeLe) {
 
   // Sample participating media, if present
   Intersection mi;
-  if (densityGrid) {
+  if (densityGrid != nullptr) {
     beta = densityGrid->sample(r, &mi);
     if (mi.is_medium) {
       L_out += beta * estimate_direct_lighting(r, mi);

@@ -36,7 +36,6 @@ Spectrum DiffuseBSDF::f(const Vector3D& wo, const Vector3D& wi) {
   // Part 3, Task 1:
   // This function takes in both wo and wi and returns the evaluation of
   // the BSDF for those two directions.
-  // wi = incoming light direction
   return reflectance / PI;
 }
 
@@ -74,8 +73,6 @@ Spectrum MicrofacetBSDF::F(const Vector3D& wi) {
     // Compute Fresnel term for reflection on dielectric-conductor interface.
     // You will need both eta and K, both of which are Spectrum.
     Spectrum eta_k = eta * eta + k * k;
-    // Spectrum rs = (eta_k - 2 * eta * wi.z + wi.z * wi.z) / (eta_k + 2 * eta * wi.z + wi.z * wi.z);
-    // Spectrum rp = (eta_k * wi.z * wi.z - 2 * eta * wi.z + 1) / (eta_k * wi.z * wi.z + 2 * eta * wi.z + 1);
     Spectrum rs = (eta_k - 2 * eta * wi.z + pow(wi.z, 2)) / (eta_k + 2 * eta * wi.z + pow(wi.z, 2));
     Spectrum rp = (eta_k * pow(wi.z, 2) - 2 * eta * wi.z + 1) / (eta_k * pow(wi.z, 2) + 2 * eta * wi.z + 1);
     return (rs + rp) / 2.0;

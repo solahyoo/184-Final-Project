@@ -111,10 +111,10 @@ class Spectrum {
   }
 
   inline Color toColor() const {
-    return Color(r, g, b, 1); 
+    return Color(r, g, b, 1);
   }
 
-  inline float illum() const { 
+  inline float illum() const {
     return 0.2126f * r + 0.7152f * g + 0.0722f * b;
   }
 

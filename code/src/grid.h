@@ -63,21 +63,21 @@ class Grid {
     return density[(v.z * y + v.y) * x + v.x];
   }
 
-  float intersection(const Ray& r) const;
+  double intersection(const Ray& r) const;
 
-  float trilerp_density(const Vector3D& v) const;
+  double trilerp_density(const Vector3D& v) const;
 
   Spectrum sample(const Ray& r, Intersection *i);
 
   Spectrum transmittance(const Ray& r) const;
 
   // For phase function - Henyey Greenstein phase function
-  float phaseHG(float cosTheta) {
-    float denom = 1 + g * g + 2 * g * cosTheta;
+  double phaseHG(double cosTheta) {
+    double denom = 1 + g * g + 2 * g * cosTheta;
     return (1 - g * g) / (denom * std::sqrt(denom) * 4 * PI);
   }
-  float p(const Vector3D& wo, const Vector3D& wi);
-  float sample_p(const Vector3D &wo, Vector3D *wi, const Vector2D &u);
+  double p(const Vector3D& wo, const Vector3D& wi);
+  double sample_p(const Vector3D &wo, Vector3D *wi, const Vector2D &u);
 
 
 
@@ -96,7 +96,7 @@ private:
  Spectrum sigma_a;
  // scattering coefficient
  Spectrum sigma_s;
- float sigma_t;
+ double sigma_t;
 
  // world to grid rotation matrix
  Matrix3x3 w2g;

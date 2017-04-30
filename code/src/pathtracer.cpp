@@ -577,6 +577,8 @@ Spectrum PathTracer::estimate_direct_lighting(const Ray& r, const Intersection& 
       // Get light sample
       Li = s->sample_L(hit_p, &wi, &distToLight, &pdf);
 
+      if (Li == Spectrum())
+        continue;
       // wi is in worldspace so convert it to object space
       Vector3D w_in = w2o * wi;
 
@@ -698,6 +700,9 @@ Spectrum PathTracer::trace_ray(const Ray &r, bool includeLe) {
   if (r.depth > 0)
     L_out += estimate_indirect_lighting(ray, isect);
 
+
+  if (includeLe && L_out != Spectrum() && L_out == isect.bsdf->get_emission())
+    L_out = Spectrum(1, 1, 1);
   return L_out;
 
 }

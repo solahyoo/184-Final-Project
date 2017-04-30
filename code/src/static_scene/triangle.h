@@ -32,14 +32,6 @@ namespace CGL { namespace StaticScene {
     */
   BBox get_bbox() const;
 
-  bool is_medium() const {
-    return false;
-  }
-
-  float medium_dist(const Ray& r) const {
-    return 0.0f;
-  }
-
    /**
     * Ray - Triangle intersection.
     * Check if the given ray intersects with the triangle, no intersection
@@ -62,12 +54,10 @@ namespace CGL { namespace StaticScene {
     */
   bool intersect(const Ray& r, Intersection* i) const;
 
-  // bool intersect(const Ray& r, Intersection* i, float& distance) const;
-
   /**
    * Get BSDF.
-   * In the case of a triangle, the surface material BSDF is stored in 
-   * the mesh it belongs to. 
+   * In the case of a triangle, the surface material BSDF is stored in
+   * the mesh it belongs to.
    */
   BSDF* get_bsdf() const { return mesh->get_bsdf(); }
 

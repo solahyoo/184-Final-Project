@@ -156,20 +156,18 @@ Ray Camera::generate_ray(double x, double y) const {
   // compute position of the input sensor sample coordinate on the
   // canonical sensor plane one unit away from the pinhole.
   // Note: hFov and vFov are in degrees.
-  //
 
-  Vector3D bottom_left = Vector3D(-tan(radians(hFov) * .5), -tan(radians(vFov) * .5), -1);
-  Vector3D top_right = Vector3D(tan(radians(hFov) * .5), tan(radians(vFov) * .5), -1);
-
-  Vector3D sensor_point = Vector3D(bottom_left.x + (top_right.x - bottom_left.x) * x, bottom_left.y + (top_right.y - bottom_left.y) * y, -1);
-  Vector3D vector = c2w * sensor_point;
-  vector.normalize();
-
-  Ray r = Ray(pos, vector);
-  r.min_t = nClip;
-  r.max_t = fClip;
-  return r;
-
+  Vector3D left = Vector3D(-tan(radians(hFov)*.5), -tan(radians(vFov)*.5), -1);
+  Vector3D right = Vector3D(tan(radians(hFov)*.5), tan(radians(vFov)*.5), -1);
+  double new_x = (right[0] - left[0]) * x + left[0];
+  double new_y = (right[1] - left[1]) * y + left[1];
+  double new_z = (right[2] - left[2]) * y + left[2];
+  Vector3D r_d = c2w * Vector3D(new_x, new_y, new_z);
+  r_d.normalize();
+  Ray ray = Ray(pos, r_d);
+  ray.min_t = nClip;
+  ray.max_t = fClip;
+  return ray;
 }
 
 Ray Camera::generate_ray_for_thin_lens(double x, double y, double rndR, double rndTheta) const {
@@ -177,27 +175,17 @@ Ray Camera::generate_ray_for_thin_lens(double x, double y, double rndR, double r
     //Todo 3-2, Task 4:
     // compute position and direction of ray from the input sensor sample coordinate.
     // Note: use rndR and rndTheta to uniformly sample a unit disk.
+    Ray ray = generate_ray(x, y); // world space
 
-    Vector3D bottom_left = Vector3D(-tan(radians(hFov) * .5), -tan(radians(vFov) * .5), -1);
-    Vector3D top_right = Vector3D(tan(radians(hFov) * .5), tan(radians(vFov) * .5), -1);
-
-    Vector3D direction = Vector3D(bottom_left.x + (top_right.x - bottom_left.x) * x, bottom_left.y + (top_right.y - bottom_left.y) * y, -1);
-
-    Vector3D pLens = Vector3D(lensRadius * sqrt(rndR) * cos(2.0 * PI * rndTheta), lensRadius * sqrt(rndR) * sin(2.0 * PI * rndTheta), 0);
-
-    double t = (-focalDistance) / direction.z ;
-    Vector3D pFocus = direction * t;
-
-    Vector3D dir = pFocus - pLens;
-    Ray r = Ray(pLens, dir);
-    r.o = c2w * r.o;
-    r.o += pos;
-
-    r.d.normalize();
-    r.d = c2w * r.d;
-    r.min_t = nClip;
-    r.max_t = fClip;
-    return r;
+    Vector3D pLens = Vector3D(lensRadius * sqrt(rndR) * cos(2 * PI * rndTheta), lensRadius * sqrt(rndR) * sin(2 * PI * rndTheta), 0);
+    double t = (-focalDistance) / ray.d.z;
+    Vector3D pFocus = (focalDistance * c2w.T() * ray.d);
+    Vector3D dir = c2w * (pFocus - pLens).unit();
+    Vector3D origin = c2w * pLens + pos;
+    Ray thin_lens_ray = Ray(origin, dir);
+    thin_lens_ray.min_t = nClip;
+    thin_lens_ray.max_t = fClip;
+    return thin_lens_ray;
 }
 
 

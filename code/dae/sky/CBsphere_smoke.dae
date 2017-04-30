@@ -568,7 +568,7 @@
         <instance_geometry url="#Sphere1-data">
           <bind_material>
             <technique_common>
-              <instance_material symbol="refract" target="#refract"/>
+              <instance_material symbol="lambertian" target="#lambertian"/>
             </technique_common>
           </bind_material>
         </instance_geometry>

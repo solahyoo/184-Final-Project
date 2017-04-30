@@ -72,13 +72,13 @@ class Grid {
 
   Spectrum transmittance(const Ray& r) const;
 
-  // For phase function
+  // For phase function - Henyey Greenstein phase function
   float phaseHG(float cosTheta) {
     float denom = 1 + g * g + 2 * g * cosTheta;
     return (1 - g * g) / (denom * std::sqrt(denom) * 4 * PI);
   }
   float p(const Vector3D& wo, const Vector3D& wi);
-  float sample_p(const Vector3D &wo, Vector3D *wi, const Vector2D &sample, Vector2D &u);
+  float sample_p(const Vector3D &wo, Vector3D *wi, const Vector2D &u);
 
 
 

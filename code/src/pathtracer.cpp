@@ -566,16 +566,16 @@ Spectrum PathTracer::estimate_direct_lighting(const Ray& r, const Intersection& 
   std::vector<SceneLight*> lights = scene->lights;
   int num_light = ns_area_light;
   Vector3D wi = Vector3D();
-  Spectrum sample_spec = Spectrum();
+  Spectrum Li = Spectrum();
   float distToLight, pdf;
   for (SceneLight *s : lights) {
     if (s->is_delta_light()) {
       num_light = 1;
     }
-    Spectrum light_spec = Spectrum();
+    Spectrum Ld = Spectrum();
     for (int i = 0; i < num_light; i++) {
       // Get light sample
-      sample_spec = s->sample_L(hit_p, &wi, &distToLight, &pdf);
+      Li = s->sample_L(hit_p, &wi, &distToLight, &pdf);
 
       // wi is in worldspace so convert it to object space
       Vector3D w_in = w2o * wi;
@@ -590,17 +590,21 @@ Spectrum PathTracer::estimate_direct_lighting(const Ray& r, const Intersection& 
       if (!hit) {
         Spectrum f;
         float scatteringPdf;
+        float weight = 1;
         if (!isect.is_medium) {
           f = isect.bsdf->f(w_out, w_in);
         } else {
           float p = isect.grid->p(w_out, w_in); // or isect.wo? (if don't need, remember to delete from Intersection)
           f = Spectrum(p, p, p);
           scatteringPdf = p;
+          Li *= isect.grid->transmittance(shadow);
+          if (!s->is_delta_light())
+            weight = (pdf * pdf) / (pdf * pdf + scatteringPdf * scatteringPdf);
         }
-        light_spec += sample_spec * f * w_in.z / pdf;
+        Ld += Li * f * w_in.z * weight / pdf;
       }
     }
-    L_out += light_spec / (float) num_light;
+    L_out += Ld / num_light;
   }
   return L_out;
 }
@@ -644,15 +648,31 @@ Spectrum PathTracer::trace_ray(const Ray &r, bool includeLe) {
 
   Intersection isect;
   Spectrum L_out;
+  Spectrum beta;
+  Ray ray = r;
+
+  // Sample participating media, if present
+  Intersection mi;
+  if (densityGrid) {
+    beta = densityGrid->sample(r, &mi);
+    if (mi.is_medium) {
+      L_out += beta * estimate_direct_lighting(r, mi);
+      Vector3D wo = -r.d;
+      Vector3D hit_p = r.o + r.d * mi.t;
+      Vector3D wi;
+      densityGrid->sample_p(wo, &wi, gridSampler->get_sample());
+      ray = Ray(EPS_D * wi + hit_p, wi);
+    }
+  }
 
   // You will extend this in part 2.
   // If no intersection occurs, we simply return black.
   // This changes if you implement hemispherical lighting for extra credit.
-  if (!bvh->intersect(r, &isect)) {
+  if (!bvh->intersect(ray, &isect)) {
     if (!envLight)
       return L_out;
     else
-      return envLight->sample_dir(r);
+      return envLight->sample_dir(ray);
   }
 
   // This line returns a color depending only on the normal vector
@@ -670,13 +690,13 @@ Spectrum PathTracer::trace_ray(const Ray &r, bool includeLe) {
   // their values get accumulated through indirect lighting, where the BSDF
   // gets to sample itself.
   if (!isect.bsdf->is_delta())
-    L_out += estimate_direct_lighting(r, isect);
+    L_out += estimate_direct_lighting(ray, isect);
 
   // You will implement this in part 4.
   // If the ray's depth is zero, then the path must terminate
   // and no further indirect lighting is calculated.
   if (r.depth > 0)
-    L_out += estimate_indirect_lighting(r, isect);
+    L_out += estimate_indirect_lighting(ray, isect);
 
   return L_out;
 
@@ -711,8 +731,6 @@ Spectrum PathTracer::raytrace_pixel(size_t x, size_t y) {
     Ray r = camera->generate_ray(normalized_x, normalized_y);
     r.depth = max_ray_depth;
     return trace_ray(r, true);
-//    return trace_ray(camera->generate_ray(normalized_x, normalized_y), true);
-
   } else {
     for (int i = 0; i < num_samples; i++) {
       Vector2D sample = origin + gridSampler->get_sample();
@@ -738,17 +756,10 @@ Spectrum PathTracer::raytrace_pixel(size_t x, size_t y) {
           }
         }
       }
-//      s += trace_ray(camera->generate_ray(normalized_x, normalized_y), true);
     }
     sampleCountBuffer[sampleBuffer.w * y + x] = n;
     return s / (float) n;
   }
-
-  // TODO Copy paste first
-  // Later 3-2 Part 4 Thin lens, need to generate the right ray
-
-  // return Spectrum();
-
 }
 
 void PathTracer::raytrace_tile(int tile_x, int tile_y,

@@ -32,19 +32,11 @@ class Aggregate : public Primitive {
   /**
    * Get BSDF.
    * An aggregate should not have a surface material as it is not an actual
-   * primitive that we would want to render but an accelerator that we use to 
+   * primitive that we would want to render but an accelerator that we use to
    * speed up ray - primitive intersections. Therefore get_brdf should always
-   * return the null pointer for aggregates. 
+   * return the null pointer for aggregates.
    */
   BSDF* get_bsdf() const { return NULL; }
-
-  float medium_dist(const Ray& r) const {
-    return 0.0f;
-  }
-
-  bool is_medium() const {
-    return false;
-  }
 
 };
 

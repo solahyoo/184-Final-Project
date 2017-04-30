@@ -53,22 +53,12 @@ class Sphere : public Primitive {
    */
   bool intersect(const Ray& r, Intersection* i) const;
 
-  // bool intersect(const Ray& r, Intersection* i, float& distance) const;
-
   /**
    * Get BSDF.
    * In the case of a sphere, the surface material BSDF is stored in
    * its sphere object wrapper.
    */
   BSDF* get_bsdf() const { return object->get_bsdf(); }
-
-  float medium_dist(const Ray& r) const;
-
-  bool is_medium() const {
-    return false;
-  }
-
-  float intersection(const Ray& r) const;
 
   /**
    * Compute the normal at a point of intersection.

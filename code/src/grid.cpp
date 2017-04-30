@@ -1,6 +1,7 @@
 #include "grid.h"
 #include "CGL/vector3D.h"
 
+#include <iostream>
 
 using namespace std;
 namespace CGL { namespace StaticScene {
@@ -35,7 +36,8 @@ namespace CGL { namespace StaticScene {
     double tmin, tmax;
     BBox b = get_bbox();
     if (!b.intersect(mray, tmin, tmax))
-      return Spectrum(1, 1, 1);
+      return Spectrum();
+      // return Spectrum(1, 1, 1);
     float t = tmin;
     while (true) {
       float random = generate_rand();
@@ -44,9 +46,11 @@ namespace CGL { namespace StaticScene {
         break;
       if (trilerp_density(mray.o + mray.d * t) / max_density > generate_rand()) {
         *i = Intersection(mray.min_t, this, -r.d);
+        cout << "sample " << sigma_s / sigma_t << endl;
         return sigma_s / sigma_t;
       }
     }
+    return Spectrum();
     return Spectrum(1, 1, 1);
   }
 
@@ -75,13 +79,14 @@ namespace CGL { namespace StaticScene {
         tr /= 1 - a;
       }
     }
+    cout << "transmittance " << tr << endl;
     return Spectrum(tr, tr, tr);
   }
 
   float Grid::p(const Vector3D& wo, const Vector3D& wi) {
     return phaseHG(dot(wo, wi));
   }
-  float Grid::sample_p(const Vector3D &wo, Vector3D *wi, const Vector2D &sample, Vector2D &u) {
+  float Grid::sample_p(const Vector3D &wo, Vector3D *wi, const Vector2D &u) {
     float cosTheta;
     if (std::abs(g) < 1e-3)
       cosTheta = 1 - 2 * u.x;

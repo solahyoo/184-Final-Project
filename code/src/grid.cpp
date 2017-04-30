@@ -29,7 +29,7 @@ namespace CGL { namespace StaticScene {
     return lerp(d.z, d0, d1);
   }
 
-  Spectrum Grid::sample(const Ray& r) {
+  Spectrum Grid::sample(const Ray& r, Intersection *i) {
     Ray mray = Ray(r.o, r.d.unit());
     mray.max_t = r.max_t * r.d.norm();
     double tmin, tmax;
@@ -38,13 +38,12 @@ namespace CGL { namespace StaticScene {
       return Spectrum(1, 1, 1);
     float t = tmin;
     while (true) {
-      // translating pbrt code to ours
       float random = generate_rand();
       t -= std::log(1 - random) / (max_density * sigma_t);
       if (t >= tmax)
         break;
       if (trilerp_density(mray.o + mray.d * t) / max_density > generate_rand()) {
-        // create phase function
+        *i = Intersection(mray.min_t, this, -r.d);
         return sigma_s / sigma_t;
       }
     }
@@ -68,7 +67,7 @@ namespace CGL { namespace StaticScene {
       float density = trilerp_density(mray.o + mray.d * t);
       tr *= 1 - std::max(0.0f, density / max_density);
 
-      // when trnasmittance gets low, start applying Russian roulette to terminate sampling
+      // when transmittance gets low, start applying Russian roulette to terminate sampling
       if (tr < .1) {
         float a = std::max(0.05f, 1 - tr);
         if (generate_rand() < a)
@@ -78,5 +77,32 @@ namespace CGL { namespace StaticScene {
     }
     return Spectrum(tr, tr, tr);
   }
+
+  float Grid::p(const Vector3D& wo, const Vector3D& wi) {
+    return phaseHG(dot(wo, wi));
+  }
+  float Grid::sample_p(const Vector3D &wo, Vector3D *wi, const Vector2D &sample, Vector2D &u) {
+    float cosTheta;
+    if (std::abs(g) < 1e-3)
+      cosTheta = 1 - 2 * u.x;
+    else {
+      float sqrTerm = (1 - g * g) / (1 - g + 2 * g * u.x);
+      cosTheta = (1 + g * g - sqrTerm * sqrTerm) / (2 * g);
+    }
+
+    // Compute direction _wi_ for Henyey--Greenstein sample
+    float sinTheta = std::sqrt(std::max(0.0f, 1 - cosTheta * cosTheta));
+    float phi = 2 * PI * u.y;
+    Vector3D v1, v2;
+    if (std::abs(wo.x) > std::abs(wo.y))
+      v1 = Vector3D(-wo.z, 0, wo.x) / std::sqrt(wo.x * wo.x + wo.z * wo.z);
+    else
+      v1 = Vector3D(0, wo.z, -wo.y) / std::sqrt(wo.y * wo.y + wo.z * wo.z);
+    v2 = cross(wo, v1);
+    // spherical direction
+    *wi = sinTheta * cos(phi) * v1 + sinTheta * sin(phi) * v2 + cosTheta * -wo;
+    return phaseHG(-cosTheta);
+  }
+
 
 }}

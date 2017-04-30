@@ -2,19 +2,17 @@
 #define CGL_GRID_H
 
 #include "CGL/CGL.h"
+#include "CGL/vector2D.h"
 #include "CGL/vector3D.h"
-#include "CGL/vector4D.h"
-#include "CGL/matrix3x3.h"
 #include "CGL/matrix4x4.h"
 #include "CGL/spectrum.h"
 #include "collada/grid_info.h"
 #include "math.h"
 #include "ray.h"
 #include "bbox.h"
+#include "intersection.h"
 #include <vector>
-#include <memory>
 #include <cstdio>
-#include <cstring>
 
 using namespace std;
 
@@ -38,6 +36,8 @@ class Grid {
     z = grid_info.z;
     density = grid_info.densities;
     sigma_t = (sigma_a + sigma_s).r;
+
+    g = .5; // change later
   }
   Grid(const Spectrum &sigma_a, const Spectrum &sigma_s, float max_density, int x, int y, int z, vector<float> d)
     : sigma_a(sigma_a),
@@ -48,6 +48,8 @@ class Grid {
 
       // memcpy((float *)density.get(), d, sizeof(float) * x * y * z);
       sigma_t = (sigma_a + sigma_s).r;
+
+      g = .5; // change later
     }
 
   BBox get_bbox() const {
@@ -62,17 +64,21 @@ class Grid {
     return density[(v.z * y + v.y) * x + v.x];
   }
 
-  float medium_dist(const Ray& r) const;
-
   float intersection(const Ray& r) const;
-
 
   float trilerp_density(const Vector3D& v) const;
 
-  Spectrum sample(const Ray& r);
+  Spectrum sample(const Ray& r, Intersection *i);
 
   Spectrum transmittance(const Ray& r) const;
 
+  // For phase function
+  float phaseHG(float cosTheta) {
+    float denom = 1 + g * g + 2 * g * cosTheta;
+    return (1 - g * g) / (denom * std::sqrt(denom) * 4 * PI);
+  }
+  float p(const Vector3D& wo, const Vector3D& wi);
+  float sample_p(const Vector3D &wo, Vector3D *wi, const Vector2D &sample, Vector2D &u);
 
 
 
@@ -80,6 +86,9 @@ private:
  // dimensions of the grid
  int x, y, z;
  float max_density;
+
+ // coefficient for Henyey Greenstein phase function
+ float g;
 
  // array of densities for the grid
  vector<float> density;

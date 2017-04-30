@@ -7,6 +7,7 @@
 #include <random>
 #include <algorithm>
 #include <sstream>
+#include <iostream>
 
 #include "CGL/CGL.h"
 #include "CGL/vector3D.h"
@@ -562,66 +563,45 @@ Spectrum PathTracer::estimate_direct_lighting(const Ray& r, const Intersection& 
   Spectrum L_out = Spectrum();
 
   // Here is where your code for looping over scene lights goes
-  for (SceneLight *sl: scene->lights) {
-    size_t num_samples = 1;
-    if (!sl->is_delta_light()) {
-      num_samples = ns_area_light;
+  std::vector<SceneLight*> lights = scene->lights;
+  int num_light = ns_area_light;
+  Vector3D wi = Vector3D();
+  Spectrum sample_spec = Spectrum();
+  float distToLight, pdf;
+  for (SceneLight *s : lights) {
+    if (s->is_delta_light()) {
+      num_light = 1;
     }
+    Spectrum light_spec = Spectrum();
+    for (int i = 0; i < num_light; i++) {
+      // Get light sample
+      sample_spec = s->sample_L(hit_p, &wi, &distToLight, &pdf);
 
-    Spectrum s_light = Spectrum();
-
-    for (int i = 0; i < num_samples; i++) {
-      Vector3D wi = Vector3D();
-      float distToLight;
-      float pdf;
-
-      Spectrum s_i = sl->sample_L(hit_p, &wi, &distToLight, &pdf);
+      // wi is in worldspace so convert it to object space
       Vector3D w_in = w2o * wi;
 
-     if (pdf <= 0) continue;
+      // light source is behind the surface or pdf is invalid
+      if (w_in.z < 0 || pdf <= 0) continue;
 
-      if (w_in.z < 0) continue;
+      Ray shadow = Ray(EPS_D * wi + hit_p, wi);
+      shadow.max_t = distToLight;
+      bool hit = bvh->intersect(shadow);
 
-      Ray shadow_ray = Ray(hit_p, wi);
-      shadow_ray.max_t = distToLight;
-      shadow_ray.o += EPS_D * wi;
-
-      // bool shadow_intersect = bvh->intersect(shadow_ray);
-
-      if (!bvh->intersect(shadow_ray)) { // connecting to light
-        Spectrum s = isect.bsdf->f(w_out, w_in);
-        Spectrum s_direct_lighting = s_i * dot(wi, isect.n) * s / pdf;
-
-        double d;
-        bool medium_isect = bvh->intersect_medium(shadow_ray, bvh->get_root(), d);
-
-        if (medium_isect) {
-          s_light += absorption_reduction(d) * s_direct_lighting;
+      if (!hit) {
+        Spectrum f;
+        float scatteringPdf;
+        if (!isect.is_medium) {
+          f = isect.bsdf->f(w_out, w_in);
         } else {
-          s_light += s_i * dot(wi, isect.n) * s / pdf;
+          float p = isect.grid->p(w_out, w_in); // or isect.wo? (if don't need, remember to delete from Intersection)
+          f = Spectrum(p, p, p);
+          scatteringPdf = p;
         }
+        light_spec += sample_spec * f * w_in.z / pdf;
       }
-
     }
-
-    L_out += s_light / (float) num_samples;
+    L_out += light_spec / (float) num_light;
   }
-
-  // COMMENT OUT normal_shading IN trace_ray BEFORE YOU BEGIN
-
-  // if medium between intersection point and eye view
-  // if (ray.m != NULL) {
-  //   L_out *= absorption_reduction(ray.m);
-  //   std::cout << "between eye" << std::endl;
-  // }
-
-  double d1;
-  bool medium_isect = bvh->intersect_medium(r, bvh->get_root(), d1);
-
-  if (medium_isect) {
-    L_out *= absorption_reduction(d1);
-  }
-
   return L_out;
 }
 
@@ -726,9 +706,9 @@ Spectrum PathTracer::raytrace_pixel(size_t x, size_t y) {
   if (num_samples == 1) {
     float normalized_x = (float) (x + 0.5) / (float) sampleBuffer.w;
     float normalized_y = (float) (y + 0.5) / (float) sampleBuffer.h;
-    Vector2D sp = gridSampler->get_sample();
-    Ray r = camera->generate_ray_for_thin_lens(normalized_x, normalized_y, sp.x, sp.y);
-    // Ray r = camera->generate_ray(normalized_x, normalized_y);
+    // Vector2D sp = gridSampler->get_sample();
+    // Ray r = camera->generate_ray_for_thin_lens(normalized_x, normalized_y, sp.x, sp.y);
+    Ray r = camera->generate_ray(normalized_x, normalized_y);
     r.depth = max_ray_depth;
     return trace_ray(r, true);
 //    return trace_ray(camera->generate_ray(normalized_x, normalized_y), true);
@@ -738,9 +718,9 @@ Spectrum PathTracer::raytrace_pixel(size_t x, size_t y) {
       Vector2D sample = origin + gridSampler->get_sample();
       float normalized_x = (float) sample.x / (float) sampleBuffer.w;
       float normalized_y = (float) sample.y / (float) sampleBuffer.h;
-      Vector2D sp = gridSampler->get_sample();
-      Ray r = camera->generate_ray_for_thin_lens(normalized_x, normalized_y, sp.x, sp.y);
-      // Ray r = camera->generate_ray(normalized_x, normalized_y);
+      // Vector2D sp = gridSampler->get_sample();
+      // Ray r = camera->generate_ray_for_thin_lens(normalized_x, normalized_y, sp.x, sp.y);
+      Ray r = camera->generate_ray(normalized_x, normalized_y);
       r.depth = max_ray_depth;
       Spectrum spectrum = trace_ray(r, true);
       s += spectrum;

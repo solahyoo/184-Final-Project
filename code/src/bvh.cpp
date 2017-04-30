@@ -46,7 +46,7 @@ void BVHAccel::drawOutline(BVHNode *node, const Color& c) const {
 }
 
 BVHNode *BVHAccel::construct_bvh(const std::vector<Primitive*>& prims, size_t max_leaf_size) {
-  
+
   // Part 2, Task 1:
   // Construct a BVH from the given vector of primitives and maximum leaf
   // size configuration. The starter code build a BVH aggregate with a
@@ -116,11 +116,11 @@ bool BVHAccel::intersect(const Ray& ray, BVHNode *node) const {
   if (node->isLeaf()) {
     for (Primitive *p: *(node->prims)) {
       total_isects++;
-      if (!p->is_medium()) {
+      // if (!p->is_medium()) {
         if (p->intersect(ray)) {
           return true;
         }
-      }
+      // }
     }
     return false;
   }
@@ -144,11 +144,11 @@ bool BVHAccel::intersect(const Ray& ray, Intersection* i, BVHNode *node) const {
   if (node->isLeaf()) {
     for (Primitive *p: *(node->prims)) {
       total_isects++;
-      if (!p->is_medium()) {
+      // if (!p->is_medium()) {
         if (p->intersect(ray, i)) {
           hit = true;
         }
-      }
+      // }
     }
     return hit;
   }

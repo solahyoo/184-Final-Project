@@ -9,7 +9,7 @@ namespace CGL { namespace StaticScene {
     return float(rand()) / RAND_MAX;
   }
 
-  Vector3D lerp(float x, float v0, float v1) {
+  float lerp(float x, float v0, float v1) {
     return (1 - x) * v0 + x * v1;
   }
 
@@ -20,8 +20,8 @@ namespace CGL { namespace StaticScene {
     Vector3D d = samples - vi;
 
     // Trilinearly interpolate density values to compute local density
-    float d00 = lerp(d.x + D(vi), D(vi + Vector3D(1, 0, 0)));
-    float d10 = lerp(d.x + D(vi + Vector3D(0, 1, 0)), D(vi + Vector3D(1, 1, 0)));
+    float d00 = lerp(d.x, D(vi), D(vi + Vector3D(1, 0, 0)));
+    float d10 = lerp(d.x, D(vi + Vector3D(0, 1, 0)), D(vi + Vector3D(1, 1, 0)));
     float d01 = lerp(d.x, D(vi + Vector3D(0, 0, 1)), D(vi + Vector3D(1, 0, 1)));
     float d11 = lerp(d.x, D(vi + Vector3D(0, 1, 1)), D(vi + Vector3D(1, 1, 1)));
     float d0 = lerp(d.y, d00, d10);
@@ -30,11 +30,11 @@ namespace CGL { namespace StaticScene {
   }
 
   Spectrum Grid::sample(const Ray& r) {
-    Ray mray = Ray(r.o, r.d.unit())
+    Ray mray = Ray(r.o, r.d.unit());
     mray.max_t = r.max_t * r.d.norm();
-    float tmin, tmax;
+    double tmin, tmax;
     BBox b = get_bbox();
-    if (!b.Intersect(mray, &tmin, &tmax))
+    if (!b.intersect(mray, tmin, tmax))
       return Spectrum(1, 1, 1);
     float t = tmin;
     while (true) {
@@ -52,11 +52,11 @@ namespace CGL { namespace StaticScene {
   }
 
   Spectrum Grid::transmittance(const Ray& r) const {
-    Ray mray = Ray(r.o, r.d.unit())
+    Ray mray = Ray(r.o, r.d.unit());
     mray.max_t = r.max_t * r.d.norm();
-    float tmin, tmax;
+    double tmin, tmax;
     BBox b = get_bbox();
-    if (!b.Intersect(mray, &tmin, &tmax))
+    if (!b.intersect(mray, tmin, tmax))
       return Spectrum(1, 1, 1);
     float tr = 1;
     float t = tmin;
@@ -66,13 +66,13 @@ namespace CGL { namespace StaticScene {
       if (t >= tmax)
         break;
       float density = trilerp_density(mray.o + mray.d * t);
-      tr *= 1 - std::max(0, density / max_density);
+      tr *= 1 - std::max(0.0f, density / max_density);
 
       // when trnasmittance gets low, start applying Russian roulette to terminate sampling
       if (tr < .1) {
-        float a = std::max(0.05, 1 - tr);
+        float a = std::max(0.05f, 1 - tr);
         if (generate_rand() < a)
-          return 0;
+          return Spectrum();
         tr /= 1 - a;
       }
     }

@@ -10,6 +10,7 @@
 #include "collada/grid_info.h"
 #include "math.h"
 #include "ray.h"
+#include "bbox.h"
 #include <vector>
 #include <memory>
 #include <cstdio>
@@ -54,7 +55,6 @@ class Grid {
   }
 
   float D(const Vector3D &v) const {
-    BBox b =
     bool inside_exclusive = v.x >= 0 && v.x < x && v.y >= 0 && v.y < y &&
                             v.z >= 0 && v.z < z;
     if (!inside_exclusive)

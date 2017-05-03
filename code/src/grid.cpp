@@ -44,7 +44,7 @@ namespace CGL { namespace StaticScene {
       if (t >= tmax)
         break;
       if (trilerp_density(mray.o + mray.d * t) / max_density > generate_rand()) {
-        *i = Intersection(mray.min_t, this, -r.d);
+        *i = Intersection(tmin, this);
         return sigma_s / sigma_t;
       }
     }
@@ -72,7 +72,7 @@ namespace CGL { namespace StaticScene {
       if (tr < .1) {
         double a = std::max(0.05, 1 - tr);
         if (generate_rand() < a)
-          return Spectrum();
+          return Spectrum(0.1, 0.1, 0.1);
         tr /= 1 - a;
       }
     }

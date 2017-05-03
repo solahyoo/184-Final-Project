@@ -48,7 +48,7 @@ class Grid {
 
       sigma_t = (sigma_a + sigma_s).r;
 
-      g = .5; // change later
+      g = .9; // change later
     }
 
   BBox get_bbox() const {
@@ -63,13 +63,17 @@ class Grid {
     return density[(v.z * y + v.y) * x + v.x];
   }
 
-  double intersection(const Ray& r) const;
+  bool intersect(const Ray& r) const {
+    double tmin, tmax;
+    return get_bbox().intersect(r, tmin, tmax);
+  }
 
   double trilerp_density(const Vector3D& v) const;
 
   Spectrum sample(const Ray& r, Intersection *i);
 
   Spectrum transmittance(const Ray& r) const;
+
 
   // For phase function - Henyey Greenstein phase function
   double phaseHG(double cosTheta) {

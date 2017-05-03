@@ -23,7 +23,7 @@ struct Intersection {
   Intersection() : t (INF_D), primitive(NULL), bsdf(NULL), grid(NULL), is_medium(false) { }
 
   // constructor for intersections with participating media (with grid)
-  Intersection(double t, Grid* grid, const Vector3D &wo) : t(t), grid(grid), wo(wo) {
+  Intersection(double t, Grid* grid) : t(t), grid(grid) {
     primitive = NULL;
     bsdf = NULL;
     n = Vector3D(0, 0, 1);
@@ -41,8 +41,6 @@ struct Intersection {
   Grid* grid; ///< grid of participating media - not null if intersection is with medium
 
   bool is_medium; ///< true if intersection is with medium
-
-  Vector3D wo;
 
   // More to follow.
 };

@@ -592,7 +592,7 @@ Spectrum PathTracer::estimate_direct_lighting(const Ray& r, const Intersection& 
       bool hit = bvh->intersect(shadow);
 
       Spectrum f;
-      float scatteringPdf;
+      float scatteringPdf = 1;
       float weight = 1;
       if (!hit) {
         if (!isect.is_medium) {

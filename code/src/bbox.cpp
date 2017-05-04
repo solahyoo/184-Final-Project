@@ -45,8 +45,8 @@ bool BBox::intersect(const Ray& r, double& t0, double& t1) const {
 
   // check if t0 or t1 are valid intersection points
   if ((tmin <= r.max_t || tmax >= r.min_t) && tmin <= tmax) {
-    t0 = tmin;
-    t1 = tmax;
+    t0 = std::max(tmin, r.min_t);
+    t1 = std::min(tmax, r.max_t);
     return true;
   }
   return false;

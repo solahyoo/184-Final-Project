@@ -32,7 +32,8 @@ namespace CGL { namespace StaticScene {
 
   Spectrum Grid::sample(const Ray& r, Intersection *i) {
     Ray mray = Ray(r.o, r.d.unit());
-    mray.max_t = r.max_t * r.d.norm();
+    if (mray.max_t != INF_D)
+      mray.max_t = r.max_t * r.d.norm();
     double tmin, tmax;
     BBox b = get_bbox();
     if (!b.intersect(mray, tmin, tmax))
@@ -44,7 +45,7 @@ namespace CGL { namespace StaticScene {
       if (t >= tmax)
         break;
       if (trilerp_density(mray.o + mray.d * t) / max_density > generate_rand()) {
-        *i = Intersection(tmin, this);
+        *i = Intersection(t, this);
         return sigma_s / sigma_t;
       }
     }
@@ -53,7 +54,8 @@ namespace CGL { namespace StaticScene {
 
   Spectrum Grid::transmittance(const Ray& r) const {
     Ray mray = Ray(r.o, r.d.unit());
-    mray.max_t = r.max_t * r.d.norm();
+    if (mray.max_t != INF_D)
+      mray.max_t = r.max_t * r.d.norm();
     double tmin, tmax;
     BBox b = get_bbox();
     if (!b.intersect(mray, tmin, tmax))
@@ -72,7 +74,7 @@ namespace CGL { namespace StaticScene {
       if (tr < .1) {
         double a = std::max(0.05, 1 - tr);
         if (generate_rand() < a)
-          return Spectrum(0.1, 0.1, 0.1);
+          return Spectrum(0.05, 0.05, 0.05);
         tr /= 1 - a;
       }
     }
@@ -100,6 +102,7 @@ namespace CGL { namespace StaticScene {
     else
       v1 = Vector3D(0, wo.z, -wo.y) / std::sqrt(wo.y * wo.y + wo.z * wo.z);
     v2 = cross(wo, v1);
+    // 1 / 4pi
     // spherical direction
     *wi = sinTheta * cos(phi) * v1 + sinTheta * sin(phi) * v2 + cosTheta * -wo;
     return phaseHG(-cosTheta);

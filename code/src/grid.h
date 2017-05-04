@@ -45,7 +45,7 @@ class Grid {
       max_density(max_density),
       x(x), y(y), z(z),
       density(d) {
-
+      // this isn't used right now (change things in above constructor to affect program)
       sigma_t = (sigma_a + sigma_s).r;
 
       g = .9; // change later
@@ -63,9 +63,12 @@ class Grid {
     return density[(v.z * y + v.y) * x + v.x];
   }
 
-  bool intersect(const Ray& r) const {
-    double tmin, tmax;
-    return get_bbox().intersect(r, tmin, tmax);
+  bool intersect(const Ray& r, double &t) const {
+    Ray mray = Ray(r.o, r.d.unit());
+    if (mray.max_t != INF_D)
+      mray.max_t = r.max_t * r.d.norm();
+    double tmax;
+    return get_bbox().intersect(mray, t, tmax);
   }
 
   double trilerp_density(const Vector3D& v) const;

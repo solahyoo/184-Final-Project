@@ -558,7 +558,10 @@ Spectrum PathTracer::estimate_direct_lighting(const Ray& r, const Intersection& 
   // w_out points towards the source of the ray (e.g.,
   // toward the camera if this is a primary ray)
   const Vector3D& hit_p = r.o + r.d * isect.t;
-  const Vector3D& w_out = w2o * (-r.d);
+  Vector3D w_out = w2o * (-r.d);
+  if (isect.is_medium)
+    w_out = -r.d;
+    // w_out = -r.d.unit();
 
   Spectrum L_out = Spectrum();
 
@@ -573,6 +576,7 @@ Spectrum PathTracer::estimate_direct_lighting(const Ray& r, const Intersection& 
       num_light = 1;
     }
     Spectrum Ld = Spectrum();
+    int count = 0;
     for (int i = 0; i < num_light; i++) {
       // Get light sample
       Li = s->sample_L(hit_p, &wi, &distToLight, &pdf);
@@ -583,12 +587,12 @@ Spectrum PathTracer::estimate_direct_lighting(const Ray& r, const Intersection& 
       Vector3D w_in = w2o * wi;
 
       // light source is behind the surface or pdf is invalid
-      if (w_in.z <= 0 || pdf <= 0) continue;
+      if (pdf <= 0) continue;
+      if (densityGrid == nullptr && w_in.z <= 0) continue;
 
       Ray shadow = Ray(EPS_D * wi + hit_p, wi);
       shadow.max_t = distToLight;
       bool hit = bvh->intersect(shadow);
-
       Spectrum f;
       float scatteringPdf;
       float weight = 1;
@@ -596,43 +600,55 @@ Spectrum PathTracer::estimate_direct_lighting(const Ray& r, const Intersection& 
         if (!isect.is_medium) {
           f = isect.bsdf->f(w_out, w_in) * w_in.z;
         }
-        // else {
-        //   float p = isect.grid->p(w_out, w_in);
-        //   f = Spectrum(p, p, p);
-        //   scatteringPdf = p;
-        //   if (!s->is_delta_light())
-        //     weight = (pdf * pdf) / (pdf * pdf + scatteringPdf * scatteringPdf);
-        // }
       }
       if (densityGrid != nullptr) {
         if (isect.is_medium) {
-          float p = densityGrid->p(w_out, w_in);
+          float p = densityGrid->p(w_out, wi);
           f = Spectrum(p, p, p);
           scatteringPdf = p;
           if (!s->is_delta_light())
             weight = (pdf * pdf) / (pdf * pdf + scatteringPdf * scatteringPdf);
         }
-        if (f != Spectrum())
-          Li *= densityGrid->transmittance(shadow);
+        if (f != Spectrum()) {
+          Spectrum tr = Spectrum(1, 1, 1);
+          Vector3D next_hit = hit_p;
+          Vector3D target_pt = shadow.o + shadow.d * (shadow.max_t - EPS_D);
+          bool bvh_hit, grid_hit;
+          double t = 0;
+          if (isect.is_medium) {
+            int i = 0;
+            while (i < 100 * r.depth && tr.r > 0.01) {
+              Intersection in;
+              bvh_hit = bvh->intersect(shadow, &in);
+              grid_hit = densityGrid->intersect(shadow, t);
+              if (bvh_hit && in.t < t) {
+                tr = Spectrum();
+                break;
+              }
+              tr *= densityGrid->transmittance(shadow);
+              if (!grid_hit) break;
+              Vector3D origin = EPS_D * (target_pt - next_hit) + next_hit;
+              Vector3D target = EPS_D * (origin - target_pt) + target_pt;
+              shadow.d = target - origin;
+              shadow.max_t -= (origin - shadow.o).norm();
+              shadow.o = origin;
+              next_hit = shadow.o + shadow.d * t;
+              i++;
+            }
+          } else {
+            tr *= densityGrid->transmittance(shadow);
+          }
+          Li *= tr;
+        }
       }
       Ld += Li * f * weight / pdf;
-      // if (isect.is_medium) {
-      //   cout << "f " << f << endl;
-      //   cout << "Li " << Li << endl;
-      //   cout << "Ld " << Ld << endl;
-      //   cout << "weight " << weight << endl;
-      //   cout << "pdf " << pdf << endl;
-      //   cout << "tr " << isect.grid->transmittance(shadow) << endl;
-      // }
     }
     L_out += Ld / num_light;
   }
-  // if (isect.is_medium)
-    // cout << "L_out " << L_out << endl;
   return L_out;
 }
 
-Spectrum PathTracer::estimate_indirect_lighting(const Ray& r, const Intersection& isect, Spectrum beta) {
+Spectrum PathTracer::estimate_indirect_lighting(const Ray& r, const Intersection& isect) {
 
   // Part 4: implement this function
 
@@ -663,26 +679,24 @@ Spectrum PathTracer::estimate_indirect_lighting(const Ray& r, const Intersection
   Ray ray = Ray(hit_p + EPS_D * wi, wi);
   ray.d.normalize();
   ray.depth = r.depth - 1;
-  beta *= s * abs_cos_theta(w_in) / (pdf * p);
-  Spectrum s_t = trace_ray(ray, isect.bsdf->is_delta(), beta);
+  Spectrum s_t = trace_ray(ray, isect.bsdf->is_delta());
   return (s * s_t * abs_cos_theta(w_in)) / (pdf * p) ;
 }
 
-Spectrum PathTracer::trace_ray(const Ray &r, bool includeLe, Spectrum beta) {
+Spectrum PathTracer::trace_ray(const Ray &r, bool includeLe) {
 
   Intersection isect;
   Spectrum L_out;
-  // Spectrum beta;
+  Spectrum beta = Spectrum(1, 1, 1);
   Ray ray = r;
 
 
   // Sample participating media, if present
-  int count = 0;
   Spectrum direct;
   if (densityGrid != nullptr) {
-    Matrix3x3 o2w;
+    double t;
     while (beta != Spectrum() && ray.depth > 0) {
-      if (!densityGrid->intersect(ray))
+      if (!densityGrid->intersect(ray, t))
         break;
       Intersection mi;
       beta *= densityGrid->sample(ray, &mi);
@@ -691,25 +705,16 @@ Spectrum PathTracer::trace_ray(const Ray &r, bool includeLe, Spectrum beta) {
       direct = estimate_direct_lighting(ray, mi);
       L_out += beta * direct;
 
-      make_coord_space(o2w, mi.n);
-      Matrix3x3 w2o = o2w.T();
-
-
-      Vector3D w_out = w2o * -ray.d;
+      Vector3D w_out = -ray.d;
       Vector3D hit_p = ray.o + ray.d * mi.t;
       Vector3D wi;
       densityGrid->sample_p(w_out, &wi, gridSampler->get_sample());
-      wi = o2w * wi;
       ray.o = EPS_D * wi + hit_p;
-      ray.d = wi.unit();
-      ray.depth -= 1;
-      count++;
-      // if( direct != Spectrum())
-      // cout << direct << endl;
+      ray.d = wi;
+      ray = Ray(EPS_D * wi + hit_p, wi, INF_D, ray.depth - 1);
     }
-
+    ray.depth = r.depth;
   }
-  ray.depth = r.depth;
 
   // You will extend this in part 2.
   // If no intersection occurs, we simply return black.
@@ -736,13 +741,13 @@ Spectrum PathTracer::trace_ray(const Ray &r, bool includeLe, Spectrum beta) {
   // their values get accumulated through indirect lighting, where the BSDF
   // gets to sample itself.
   if (!isect.bsdf->is_delta())
-    L_out += beta * estimate_direct_lighting(ray, isect);
+    L_out += 1 * estimate_direct_lighting(ray, isect);
 
   // You will implement this in part 4.
   // If the ray's depth is zero, then the path must terminate
   // and no further indirect lighting is calculated.
   if (ray.depth > 0)
-    L_out += beta * estimate_indirect_lighting(ray, isect, beta);
+    L_out += 1 * estimate_indirect_lighting(ray, isect);
 
 
   if (includeLe && L_out != Spectrum() && L_out == isect.bsdf->get_emission())

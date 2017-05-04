@@ -607,7 +607,7 @@
         </instance_geometry>
       </node>
       <node id="Sphere2" name="Sphere2" type="NODE">
-        <matrix sid="transform">1 0 0 0.4 0 1 0 -0.3 0 0 1 0.3 0 0 0 1</matrix>
+        <matrix sid="transform">1 0 0 0.1 0 1 0 -0.3 0 0 1 0.3 0 0 0 1</matrix>
         <instance_geometry url="#Sphere1-data">
           <bind_material>
             <technique_common>

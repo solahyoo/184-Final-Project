@@ -36,7 +36,10 @@ class Grid {
     z = grid_info.z;
     density = grid_info.densities;
     sigma_t = (sigma_a + sigma_s).r;
-
+    // .7 makes the media bigger
+    // .5 shifts media to the left (more towards middle)
+    double m[9] = { .75, 0, .5, 0, .75, 0, 0, 0, .75};
+    w2g = Matrix3x3(m);
     g = .5; // change later
   }
   Grid(const Spectrum &sigma_a, const Spectrum &sigma_s, float max_density, int x, int y, int z, vector<float> d)
@@ -67,6 +70,8 @@ class Grid {
     Ray mray = Ray(r.o, r.d.unit());
     if (mray.max_t != INF_D)
       mray.max_t = r.max_t * r.d.norm();
+    mray.o = w2g * mray.o;
+    mray.d = w2g * mray.d;
     double tmax;
     return get_bbox().intersect(mray, t, tmax);
   }

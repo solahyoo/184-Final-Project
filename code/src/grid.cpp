@@ -34,6 +34,8 @@ namespace CGL { namespace StaticScene {
     Ray mray = Ray(r.o, r.d.unit());
     if (mray.max_t != INF_D)
       mray.max_t = r.max_t * r.d.norm();
+    mray.o = w2g * mray.o;
+    mray.d = w2g * mray.d;
     double tmin, tmax;
     BBox b = get_bbox();
     if (!b.intersect(mray, tmin, tmax))
@@ -56,6 +58,8 @@ namespace CGL { namespace StaticScene {
     Ray mray = Ray(r.o, r.d.unit());
     if (mray.max_t != INF_D)
       mray.max_t = r.max_t * r.d.norm();
+    mray.o = w2g * mray.o;
+    mray.d = w2g * mray.d;
     double tmin, tmax;
     BBox b = get_bbox();
     if (!b.intersect(mray, tmin, tmax))

@@ -1,0 +1,115 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<style>
+  body {
+    padding: 100px;
+    width: 1000px;
+    margin: auto;
+    text-align: left;
+    font-weight: 300;
+    font-family: 'Open Sans', sans-serif;
+    color: #121212;
+  }
+  h1, h2, h3, h4 {
+    font-family: 'Source Sans Pro', sans-serif;
+  }
+
+  pre {
+    font-size: 14px;
+  }
+</style>
+<script type="text/javascript" async
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
+</script>
+<title>CS 184 Final Project Proposal</title>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link href="https://fonts.googleapis.com/css?family=Open+Sans|Source+Sans+Pro" rel="stylesheet">
+</head>
+
+<body>
+
+<h1 align="middle">CS 184: Computer Graphics and Imaging, Spring 2017</h1>
+<h1 align="middle">Final Project Proposal: Rendering Realistic Smoke and Clouds (Heterogeneous Participating Media)</h1>
+<h2 align="middle">Sarah Au and Sol Ah Yoo</h2>
+
+<br/>
+
+<div>
+<h2 align="middle">Abstract</h2>
+<p>For this project we tried rendering realistic smoke and clouds (heterogeneous participating media). In project 3, we treated the empty space as a vacuum, which made incoming radiance relatively easily to calculate, since a light ray's photons are not affected by the space it travels through. In participating media, we treat the media as a collection of particles that the light ray interacts with as it travels through, causing absorption or scattering effects, and thus a change in radiance. Since it would be inefficient to find photon interactions with individual particles, absorption or scattering is calculated probabilistically.</p>
+
+<h2 align="middle">Technical Approach</h2>
+
+<p> Our algorithm mostly follows the one detailed in the Physically Based Rendering Textbook, but with a few modifications. To render the media with scattering, we sample the distance the light ray travels in the media, sample direct lighting at that distance, and choose the next direction to travel using a phase function. We modified the class pathtracer from Project 3 to check if a medium intersection exists, deal with scattering interactions, and then check for surface interactions. </p>
+
+<p>We defined our heterogeneous medium by a grid of floats, representing local partical densities, for the bounding box that contains the medium. We found a few datasets online, one from the Physically Based Rendering Textbook and another from Mitsuba Renderer. We added the density grid to the Collada files from class projects, along with scattering and absorption coefficients, and edited <code>collada.cpp</code> to read the grid into a new Grid data structure we defined.
+</p>
+
+<p>When we sample the medium, we first check if the ray intersects with the medium's bounding box, and if it does we sample the distance it travels before interacting with a particle. For distance sampling, we used Woodcock tracking, also known as delta tracking. Woodcock tracking is a way of sampling distances in heterogeneous media by treating it as if it's homogeneous, and is an accuracy and efficiency improvement over ray marching. In Woodcock tracking, we take multiple steps through the media and probabilistically choose to stop, which is proportional to the ratio of the local density at that location to maximum density throughout the medium. The algorithm is as follows:</p>
+
+<pre>
+function sample_distance(x, ω, σmax)
+  t = intersect(ray, bbox)
+  while true:
+    t -= ln(1 – rand()) / (σ<sub>max</sub> * extinction)
+    if (rand() < σ<sub>t</sub>(x – tω) / σ<sub>max</sub>) 
+      break
+  return t 
+</pre>
+
+<p>
+  where $\sigma_{max}$ is the maximum density throughout the medium and $\sigma_t (x - t \omega)$ is the density at time $t$ in the ray. If the local density is high, the algorithm is more likely to halt and return a shorter distance, and if it is low, the algorithm is more likely to return longer distances.
+</p>
+
+<p>After sampling a distance, we get the direct lighting at that location with a modification to the same method <code>estimate_direct_lighting()</code>, used in project 3. We scale our sampled direct lighting by its transmittance through the media between the hit point and a light source (if it exists), which is the probability of passing through the medium. We calculate transmittance similarly to how we sample a distance:</p>
+
+<pre>
+function transmittance(t)
+  tr = 1
+  while true:
+    t -= ln(1 – rand()) / (σ<sub>max</sub> * extinction)
+    σ<sub>t</sub> = grid(t)
+    tr *= 1 - max(0, σ<sub>t</sub>/σ<sub>max</sub>)
+  return tr
+</pre>
+
+<p>We use the Henyey-Greenstein phase function to choose which direction to travel to next. This phase function takes in a parameter $-1 \leq g \leq 1$, that causes the phase to range from back-scattering to forward-scattering. The Henyey-Greenstein phase function is:</p>
+
+<p align="middle">
+  $p(\theta) = \frac{1}{4 \pi} \frac{1 - g^2}{ [1 + g^2 - 2 g \cos ( \theta ) ]^{3/2}}$
+</p>
+
+<p>Using Woodcock tracking and the Henyey-Greenstein phase function, we can choose the next point to estimate lighting at and simulate multiple scattering. We keep sampling points in the medium until our distance and direction function give us a point outside of the medium, and then we can normally get surface radiance.</p>
+
+<h2 align="middle">Problems Encountered</h2>
+<p> Our biggest problem was trying to get direct lighting to show for scattering effects. Our clouds were showing up very flat and it was hard knowing where to try to start debugging.</p>
+
+<h2 align="middle">Lessons Learned</h2>
+<p></p>
+
+<h2 align="middle">Resources</h2>
+<ul>
+  <li>
+    Physically Based Rendering Textbook
+  </li>
+  <li>
+    <a href="http://www.alanzucconi.com/2016/07/01/volumetric-rendering">Volumetric Rendering</a>
+  </li>
+  <li>
+    <a href="https://www.cs.dartmouth.edu/~wjarosz/publications/dissertation/chapter4.pdf">Light Transport in Participating Media</a>
+  </li>
+  <li>
+    <a href="http://www.cs.cornell.edu/courses/cs6630/2015fa/notes/10volpath.pdf">Volumetric Path Tracing</a>
+  </li>
+</ul>
+
+<h2 align="middle">Team Member Contributions</h2>
+<p>Solah: modified the pipeline to import the grid and coded the algorithms</p>
+<p>Sarah: helped with coding the functions and debugging</p>
+
+</body>
+</html>

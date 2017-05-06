@@ -40,7 +40,7 @@
 
 <div>
 <h2 align="middle">Abstract</h2>
-<p>For this project we tried rendering realistic smoke and clouds (heterogeneous participating media). In project 3, we treated the empty space as a vacuum, which made incoming radiance relatively easily to calculate, since a light ray's photons are not affected by the space it travels through. In participating media, we treat the media as a collection of particles that the light ray interacts with as it travels through, causing absorption or scattering effects, and thus a change in radiance. Since it would be inefficient to find photon interactions with individual particles, absorption or scattering is calculated probabilistically.</p>
+<p>For this project we tried rendering realistic smoke and clouds (heterogeneous participating media). In project 3, we treated the empty space as a vacuum, which made incoming radiance relatively easy to calculate, since a light ray's photons are not affected by the space it travels through. In participating media, we treat the media as a collection of particles that the light ray interacts with as it travels through, causing absorption or scattering effects, and thus a change in radiance. Since it would be inefficient to find photon interactions with individual particles, absorption or scattering is calculated probabilistically.</p>
 
 <h2 align="middle">Technical Approach</h2>
 
@@ -56,9 +56,9 @@ function sample_distance(x, ω, σmax)
   t = intersect(ray, bbox)
   while true:
     t -= ln(1 – rand()) / (σ<sub>max</sub> * extinction)
-    if (rand() < σ<sub>t</sub>(x – tω) / σ<sub>max</sub>) 
+    if (rand() < σ<sub>t</sub>(x – tω) / σ<sub>max</sub>)
       break
-  return t 
+  return t
 </pre>
 
 <p>
@@ -77,6 +77,8 @@ function transmittance(t)
   return tr
 </pre>
 
+<p> Unlike when we render shadows for solid materials, we have to keep sampling the transmittance and scale the radiance by the sampled transmittance until the ray comes out of the participating media in order to get a nice shade on the cloud. To do so, we use the shadow ray and after each sample, we update the ray by offsetting the origin from the hit point by EPS_D, with direction towards the light point we sampled earlier.</p>
+
 <p>We use the Henyey-Greenstein phase function to choose which direction to travel to next. This phase function takes in a parameter $-1 \leq g \leq 1$, that causes the phase to range from back-scattering to forward-scattering. The Henyey-Greenstein phase function is:</p>
 
 <p align="middle">
@@ -86,10 +88,55 @@ function transmittance(t)
 <p>Using Woodcock tracking and the Henyey-Greenstein phase function, we can choose the next point to estimate lighting at and simulate multiple scattering. We keep sampling points in the medium until our distance and direction function give us a point outside of the medium, and then we can normally get surface radiance.</p>
 
 <h2 align="middle">Problems Encountered</h2>
-<p> Our biggest problem was trying to get direct lighting to show for scattering effects. Our clouds were showing up very flat and it was hard knowing where to try to start debugging.</p>
+<p> Our biggest problem was trying to get direct lighting to show for scattering effects. Our clouds were showing up very flat and it was hard knowing where to try to start debugging. </p>
 
 <h2 align="middle">Lessons Learned</h2>
-<p></p>
+<p>As with all the other CS 184 projects, it was hard debugging the project because nothing was broken - it was just that the images didn't look quite right. But while working on this project, we learned to go step by step to figure out why the images were coming out like they were. For example, in the beginning, we had very flat and almost white clouds. But after spending a lot of time re-reading the papers and the textbook, we realized our algorithm for transmittance was slightly wrong. We were only sampling transmittance once and returning the radiance immediately (like we would do wtih the shadow rays by returning Spectrum()) while we should have kept sampling transmittance while the ray was traversing through the cloud. This project really helped us understand more about ray tracing and how to logically go through the algorithms and the steps of a ray.</p>
+
+<h2 align="middle">Results</h2>
+<p> Here are some of our renderings. Below are cloud renderings with absorption coefficient of 10, scattering coefficient of 90 and the same samples per pixel (s = 512) and light (l = 2) with different ray depths. </p>
+<p> </p>
+<div align="middle">
+  <table style="width=100%">
+    <tr>
+      <td>
+        <img src="../images/final/cloud_s512_m25.png" align="middle" width="400px"/>
+        <figcaption align="middle"> Ray depth = 25 </figcaption>
+      </td>
+      <td>
+        <img src="../images/final/cloud_s512_m10.png" align="middle" width="400px"/>
+        <figcaption align="middle"> Ray depth = 10 </figcaption>
+    </tr>
+  </table>
+</div>
+<p> We also tried adding blue emission for the media. </p>
+<div align="middle">
+  <table style="width=100%">
+    <tr>
+      <td>
+        <img src="../images/final/blue_smoke_s512_m10.png" align="middle" width="400px"/>
+        <figcaption align="middle"> Blue smoke </figcaption>
+      </td>
+      <td>
+        <img src="../images/final/blue_sphere_smoke_s1024_m10.png" align="middle" width="400px"/>
+        <figcaption align="middle"> A blue fog effect </figcaption>
+    </tr>
+  </table>
+</div>
+<p>More images! </p>
+<div align="middle">
+  <table style="width=100%">
+    <tr>
+      <td>
+        <img src="../images/final/smoke_s1024_m10.png" align="middle" width="400px"/>
+        <figcaption align="middle"> Smoke </figcaption>
+      </td>
+      <td>
+        <img src="../images/final/ntcloud_a90_s512_m9_negg.png" align="middle" width="400px"/>
+        <figcaption align="middle"> g = -0.5 (Back-scattering) </figcaption>
+    </tr>
+  </table>
+</div>
 
 <h2 align="middle">Resources</h2>
 <ul>

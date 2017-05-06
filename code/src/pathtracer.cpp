@@ -617,11 +617,11 @@ Spectrum PathTracer::estimate_direct_lighting(const Ray& r, const Intersection& 
           double t = 0;
           if (isect.is_medium) {
             int i = 0;
-            while (i < 100 * r.depth && tr.r > 0.01) {
+            while (i < 100 && tr.r > 0.01) {
               Intersection in;
               bvh_hit = bvh->intersect(shadow, &in);
               grid_hit = densityGrid->intersect(shadow, t);
-              if (bvh_hit && in.t < t) {
+              if (bvh_hit && in.t <= t) {
                 tr = Spectrum();
                 break;
               }
@@ -733,8 +733,9 @@ Spectrum PathTracer::trace_ray(const Ray &r, bool includeLe) {
 
   // We only include the emitted light if the previous BSDF was a delta distribution
   // or if the previous ray came from the camera.
-  if (includeLe)
+  if (includeLe) {
     L_out += isect.bsdf->get_emission();
+  }
 
   // You will implement this in part 3.
   // Delta BSDFs have no direct lighting since they are zero with probability 1 --

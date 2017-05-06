@@ -78,7 +78,7 @@ namespace CGL { namespace StaticScene {
       if (tr < .1) {
         double a = std::max(0.05, 1 - tr);
         if (generate_rand() < a)
-          return Spectrum(0.05, 0.05, 0.05);
+          return Spectrum();
         tr /= 1 - a;
       }
     }

@@ -36,11 +36,10 @@ class Grid {
     z = grid_info.z;
     density = grid_info.densities;
     sigma_t = (sigma_a + sigma_s).r;
-    // .7 makes the media bigger
-    // .5 shifts media to the left (more towards middle)
-    double m[9] = { .75, 0, .5, 0, .75, 0, 0, 0, .75};
+    double m[9] = { 1.25, 0, .75, 0, 1.25, 0, 0, 0, 1.25};
+    // double m[9] = { 1, 0, .75, 0, 1, 0, 0, 0, 1};
     w2g = Matrix3x3(m);
-    g = .5; // change later
+    g = .2; // change later
   }
   Grid(const Spectrum &sigma_a, const Spectrum &sigma_s, float max_density, int x, int y, int z, vector<float> d)
     : sigma_a(sigma_a),
